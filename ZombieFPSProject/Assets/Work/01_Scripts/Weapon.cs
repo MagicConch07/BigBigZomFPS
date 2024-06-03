@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using ObjectPooling;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -55,7 +56,8 @@ public class Weapon : MonoBehaviour
         _perlin.m_AmplitudeGain = 1;
         _perlin.m_FrequencyGain = 1;
 
-        GameObject bulletObj = Instantiate(_bulletPrefab);
+        Bullet bulletObj = PoolManager.Instance.Pop(PoolingType.Bullet_5_56x45) as Bullet;
+        
         bulletObj.transform.position = _muzzle.position;
         bulletObj.transform.rotation = _muzzle.rotation;
 

@@ -16,4 +16,4 @@ MonoBehaviour:
   poolingName: 5.56x45_Bullet
   description: 5.56x45_Bullet
   poolCount: 100
-  prefab: {fileID: 0}
+  prefab: {fileID: 7068114847488688365, guid: 27a574828771fd04fb070769b0cd0969, type: 3}
