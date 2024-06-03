@@ -12,7 +12,7 @@ public abstract class Agent : MonoBehaviour
     public Health HealthCompo { get; protected set; }
     #endregion
 
-    [field:SerializeField] public AgentStat Stat { get; protected set; }
+    [field: SerializeField] public AgentStat Stat { get; protected set; }
 
     public bool CanStateChangeable { get; protected set; } = true;
     public bool isDead;
@@ -27,7 +27,7 @@ public abstract class Agent : MonoBehaviour
         VFXCompo = transform.Find("AgentVFX").GetComponent<AgentVFX>();
 
         Transform damageTrm = transform.Find("DamageCaster");
-        if(damageTrm != null)
+        if (damageTrm != null)
         {
             DamageCasterCompo = damageTrm.GetComponent<DamageCaster>();
             DamageCasterCompo.InitCaster(this);

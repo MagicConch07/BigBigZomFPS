@@ -19,18 +19,18 @@ public class CommonDeadState : EnemyState<CommonStateEnum>
         base.Enter();
         _enemyBase.gameObject.layer = _deadbodyLayer;
 
-        int gold = _enemyBase.DropTable.GetDropGold();
-        int exp = _enemyBase.DropTable.dropExp;
+        //int gold = _enemyBase.DropTable.GetDropGold();
+        //int exp = _enemyBase.DropTable.dropExp;
 
-        PlayerManager.Instance.AddExp( exp  ); //경험치 넣어주고
+        //PlayerManager.Instance.AddExp( exp  ); //경험치 넣어주고
 
         Vector3 dropDirection = _enemyBase.HealthCompo.actionData.hitNormal * -1;
         
-        for(int i = 0; i < gold; i++)
+        //for(int i = 0; i < gold; i++)
         {
-            Item coin = PoolManager.Instance.Pop(PoolingType.Item_Coin) as Item;
+            //Item coin = PoolManager.Instance.Pop(PoolingType.Item_Coin) as Item;
             Vector3 realDir = Quaternion.Euler(0, Random.Range(-30f, 30f), 0) * dropDirection;
-            coin.SetItemData(_enemyBase.transform.position, realDir);
+            //coin.SetItemData(_enemyBase.transform.position, realDir);
         }
     }
 
