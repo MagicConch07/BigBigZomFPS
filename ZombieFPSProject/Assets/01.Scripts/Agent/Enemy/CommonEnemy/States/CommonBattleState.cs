@@ -15,6 +15,13 @@ public class CommonBattleState : EnemyState<CommonStateEnum>
     public override void UpdateState()
     {
         base.UpdateState();
+        
+        Collider target = _enemyBase.IsPlayerDetected();
+        if (target == null)
+        {
+            // 다시 idle로 전환
+            _stateMachine.ChangeState(CommonStateEnum.Idle);
+        }
 
         if(movementCompo.NavAgent.enabled)
         {

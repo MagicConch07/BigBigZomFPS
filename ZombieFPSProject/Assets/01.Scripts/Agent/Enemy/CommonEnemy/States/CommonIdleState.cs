@@ -9,18 +9,20 @@ public class CommonIdleState : EnemyState<CommonStateEnum>
     public override void UpdateState()
     {
         base.UpdateState();
+        
+        Debug.Log("ì´ê²Œ ê³„ì† ì‹¤í–‰ì´ ì•ˆë˜ëŠ” ê±´ê°€?");
+        
         Collider target = _enemyBase.IsPlayerDetected();
-        if (target == null) return; //ÁÖº¯¿¡ ÇÃ·¹ÀÌ¾î°¡ ¾øÀ¸¸é ¾Æ¹«°Íµµ ¾ÈÇÔ.
+        if (target == null) return; //ì£¼ë³€ì— í”Œë ˆì´ì–´ê°€ ì—†ìœ¼ë©´ ì•„ë¬´ê²ƒë„ ì•ˆí•¨.
         
         Vector3 direction = target.transform.position - _enemyBase.transform.position;
         direction.y = 0;
 
-        //ÇÃ·¹ÀÌ¾î ¹ß°ßÇß°í ±× »çÀÌ¿¡ Àå¾Ö¹°µµ ¾ø´Ù.
+        //í”Œë ˆì´ì–´ ë°œê²¬í–ˆê³  ê·¸ ì‚¬ì´ì— ì¥ì• ë¬¼ë„ ì—†ë‹¤.
         if(_enemyBase.IsObstacleInLine(direction.magnitude, direction.normalized) == false)
         {
             _enemyBase.targetTrm = target.transform;
-            _stateMachine.ChangeState(CommonStateEnum.Battle);//ÀüÅõ»óÅÂ·Î ÀüÈ¯
+            _stateMachine.ChangeState(CommonStateEnum.Battle);//ì „íˆ¬ìƒíƒœë¡œ ì „í™˜
         }
-
     }
 }

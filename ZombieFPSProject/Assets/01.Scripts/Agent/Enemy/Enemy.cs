@@ -36,7 +36,7 @@ public abstract class Enemy : Agent
     public virtual Collider IsPlayerDetected()
     {
         int cnt = Physics.OverlapSphereNonAlloc(transform.position, runAwayDistance, _enemyCheckColliders, _whatIsPlayer);
-
+        
         return cnt >= 1 ? _enemyCheckColliders[0] : null;
     }
 

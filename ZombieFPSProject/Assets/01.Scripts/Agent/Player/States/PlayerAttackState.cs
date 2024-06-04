@@ -18,8 +18,6 @@ public class PlayerAttackState : PlayerState
     {
         base.Enter();
 
-        _player.PlayerInput.RollingEvent += HandleRollingEvent;
-
         bool comboCounterOver = _comboCounter > 2;
         bool comboWindowExhaust = Time.time >= _lastAttackTime + _comboWindow;
         if(comboCounterOver || comboWindowExhaust)
@@ -30,15 +28,7 @@ public class PlayerAttackState : PlayerState
         _player.AnimatorCompo.speed = _player.attackSpeed;
         _player.AnimatorCompo.SetInteger(_comboCounterHash, _comboCounter);
 
-        Vector3 playerDirection = CameraManager.Instance.GetTowardMouseDirection(
-                    _player.transform, _player.PlayerInput.MousePosition);
-
-        //_player.transform.rotation = Quaternion.LookRotation(playerDirection);
-        _player.transform.forward = playerDirection;
-
         float movePower = _player.attackMovement[_comboCounter];
-        Vector3 movement = playerDirection * movePower;
-        _player.MovementCompo.SetMovement(movement);
 
         float delayTime = 0.2f;
 
@@ -59,19 +49,9 @@ public class PlayerAttackState : PlayerState
         {
             _player.StopCoroutine(_delayCoroutine);
         }
-
-        _player.PlayerInput.RollingEvent -= HandleRollingEvent;
         base.Exit();
     }
-
-    private void HandleRollingEvent()
-    {
-        if(_player.MovementCompo.IsGround
-            && SkillManager.Instance.GetSkill<RollingSkill>().UseSkill())
-        {
-            _stateMachine.ChangeState(PlayerStateEnum.Rolling);
-        }
-    }
+    
 
     public override void UpdateState()
     {

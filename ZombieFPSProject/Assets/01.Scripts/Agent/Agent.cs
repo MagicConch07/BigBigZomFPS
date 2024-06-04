@@ -19,12 +19,13 @@ public abstract class Agent : MonoBehaviour
 
     protected virtual void Awake()
     {
-        Transform visualTrm = transform.Find("Visual");
+        Transform visualTrm = transform.Find("ZombieVisual");
         AnimatorCompo = visualTrm.GetComponent<Animator>();
         MovementCompo = GetComponent<IMovement>();
         MovementCompo.Initialize(this);
 
-        VFXCompo = transform.Find("AgentVFX").GetComponent<AgentVFX>();
+        //! VFX Compo 해결하시고
+        //VFXCompo = transform.Find("AgentVFX").GetComponent<AgentVFX>();
 
         Transform damageTrm = transform.Find("DamageCaster");
         if (damageTrm != null)

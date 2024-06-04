@@ -20,8 +20,8 @@ public class Player : Agent
 
     [Header("Setting Values")]
     public float moveSpeed = 8f;
-    public float dashSpeed = 20f;
-    public RollingDirection rollingDirection = RollingDirection.Mouse;
+        public float dashSpeed = 20f;
+        public RollingDirection rollingDirection = RollingDirection.Mouse;
 
     [Header("Attack Settings")]
     public float attackSpeed = 1f;
@@ -84,7 +84,7 @@ public class Player : Agent
 
         if(success && currentComboCounter == 2)
         {
-            SkillManager.Instance.GetSkill<ThunderStrikeSkill>().UseSkill();
+            //SkillManager.Instance.GetSkill<ThunderStrikeSkill>().UseSkill();
         }
     }
 

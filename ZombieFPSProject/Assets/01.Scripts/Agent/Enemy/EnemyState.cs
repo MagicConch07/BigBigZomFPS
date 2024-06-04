@@ -15,7 +15,10 @@ public class EnemyState<T> where T : Enum
         _animBoolHash = Animator.StringToHash(animBoolName);
     }
 
-    public virtual void UpdateState() {    }
+    public virtual void UpdateState()
+    {
+        Debug.Log("지금 Update 실행중");
+    }
 
     public virtual void Enter()
     {
