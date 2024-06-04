@@ -6,6 +6,7 @@ public enum CommonStateEnum
     Idle,
     Battle,  //추적 상태
     Attack,
+    Damage,
     Dead
 }
 

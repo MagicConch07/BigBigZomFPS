@@ -9,7 +9,7 @@ public class CommonBattleState : EnemyState<CommonStateEnum>
     {
         movementCompo = _enemyBase.MovementCompo as EnemyMovement;
     }
-
+    
     private Vector3 _targetDestination; //¸ñÀûÁö
 
     public override void UpdateState()
@@ -46,6 +46,7 @@ public class CommonBattleState : EnemyState<CommonStateEnum>
         else if(playerInRange)
         {
             _enemyBase.MovementCompo.StopImmediately();
+            Debug.Log("LookToTarget");
             movementCompo.LookToTarget(_enemyBase.targetTrm.position);
         }
 
