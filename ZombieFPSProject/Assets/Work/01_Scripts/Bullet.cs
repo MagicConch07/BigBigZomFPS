@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ObjectPooling;
@@ -5,7 +6,15 @@ using UnityEngine;
 
 public class Bullet : PoolableMono
 {
+    private TrailRenderer _trail;
+    
     public float speed = 10f;
+    public float disableBulletTime = 2f;
+
+    private void Awake()
+    {
+        _trail = GetComponent<TrailRenderer>();
+    }
 
     void Start()
     {
@@ -15,13 +24,13 @@ public class Bullet : PoolableMono
     void Update()
     {
         Vector3 dir =  speed * Time.deltaTime * Vector3.left;
-        //dir = transform.TransformDirection(dir);
         transform.Translate(dir);
     }
 
     private IEnumerator DisableBullet()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(disableBulletTime);
+        _trail.Clear();
         gameObject.SetActive(false);
         PoolManager.Instance.Push(this);
     }

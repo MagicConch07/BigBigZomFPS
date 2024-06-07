@@ -69,7 +69,6 @@ public class AgentMovement : MonoBehaviour, IMovement
         // Noting
     }
 
-
     public void SetDestination(Vector3 destination)
     {
         //플레이어는 이 함수를 안쓴다. (NavMesh기반)

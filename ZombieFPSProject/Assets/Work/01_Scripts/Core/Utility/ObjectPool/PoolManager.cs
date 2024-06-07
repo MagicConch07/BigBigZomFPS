@@ -1,8 +1,5 @@
 using ObjectPooling;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class PoolManager : MonoSingleton<PoolManager>
@@ -27,6 +24,7 @@ public class PoolManager : MonoSingleton<PoolManager>
     }
 
     
+    // ReSharper disable Unity.PerformanceAnalysis
     public PoolableMono Pop(PoolingType type)
     {
         if(_pools.ContainsKey(type) == false)

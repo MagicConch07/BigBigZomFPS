@@ -9,10 +9,14 @@ using UnityEngine.Serialization;
 
 public class Weapon : MonoBehaviour
 {
+    [SerializeField] private InputReader _inputReader;
+    
     [SerializeField] private LayerMask _enemyLayer;
-    [SerializeField] private GameObject _casingPrefab;
     [SerializeField] private Transform _muzzle;
+    
+    [SerializeField] private GameObject _casingPrefab;
     [SerializeField] private Transform _casingPos;
+    
     [SerializeField] private CinemachineVirtualCamera _virCam;
     private CinemachineBasicMultiChannelPerlin _perlin;
 
@@ -52,6 +56,7 @@ public class Weapon : MonoBehaviour
 
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator Shoot()
     {
         RaycastHit[] hitInfo = new RaycastHit[3];
@@ -62,28 +67,42 @@ public class Weapon : MonoBehaviour
         }
         _isAttack = true;
 
-        _perlin.m_AmplitudeGain = 1;
-        _perlin.m_FrequencyGain = 1;
+        PerlinCam(1, 1);
+        
+        CreateBullet();
+        
+        yield return new WaitForSeconds(_fireRate);
 
+        PerlinCam();
+        
+        _isAttack = false;
+    }
+
+    private void PerlinCam(int amplitude = 0, int frequency = 0)
+    {
+        _perlin.m_AmplitudeGain = amplitude;
+        _perlin.m_FrequencyGain = frequency;
+    }
+
+    private void CreateBullet()
+    {
         Bullet bulletObj = PoolManager.Instance.Pop(PoolingType.Bullet_5_56x45) as Bullet;
         
+        // 라이더 왈 캐싱이 더 빠르다
         bulletObj.transform.position = _muzzle.position;
         bulletObj.transform.rotation = _muzzle.rotation;
 
         GameObject casingObj = Instantiate(_casingPrefab);
         casingObj.transform.position = _casingPos.position;
         casingObj.transform.rotation = _casingPos.rotation;
-        yield return new WaitForSeconds(_fireRate);
-
-        _perlin.m_AmplitudeGain = 0;
-        _perlin.m_FrequencyGain = 0;
-        _isAttack = false;
     }
 
+    #if UNITY_EDITOR
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawRay(_camRay.origin, _camRay.direction * rayDistance);
     }
+    #endif
 }
 
