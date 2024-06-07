@@ -159,4 +159,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  speed: 50
+  speed: 1200
+  disableBulletTime: 2

@@ -150,11 +150,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bf5e2f4392fdb4faced5c658c4be9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputReader: {fileID: 0}
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 0
-  _casingPrefab: {fileID: 1170647774315830, guid: eea9bcfc1d8a5b94d8df676b0c7d8ca9, type: 3}
   _muzzle: {fileID: 868526712363093607}
+  _casingPrefab: {fileID: 1170647774315830, guid: eea9bcfc1d8a5b94d8df676b0c7d8ca9, type: 3}
   _casingPos: {fileID: 2297707803730970815}
   _virCam: {fileID: 8256045889159331398}
   rayDistance: 10
@@ -555,16 +556,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inputReader: {fileID: 11400000, guid: 783311ebbca53f14c8b494d0b7de227a, type: 2}
   _virtualCam: {fileID: 5624110699347147337}
-  _bodyObj: {fileID: 9216984287098327926}
-  _sensitivity: 0.5
-  cameraRotationLimit: 60
   speed: 12
-  mouseSpeed: 1
+  _jumpPower: 5
+  _rayDistance: 1.2
   _groundLayer:
     serializedVersion: 2
     m_Bits: 128
-  _jumpPower: 5
-  _rayDistance: 1.2
 --- !u!1 &7539345253773974151
 GameObject:
   m_ObjectHideFlags: 0

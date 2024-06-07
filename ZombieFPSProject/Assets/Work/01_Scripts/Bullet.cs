@@ -8,7 +8,7 @@ public class Bullet : PoolableMono
 {
     private TrailRenderer _trail;
     
-    public float speed = 10f;
+    public float speed = 300f;
     public float disableBulletTime = 2f;
 
     private void Awake()
@@ -16,7 +16,7 @@ public class Bullet : PoolableMono
         _trail = GetComponent<TrailRenderer>();
     }
 
-    void Start()
+    private void OnEnable()
     {
         StartCoroutine(DisableBullet());
     }

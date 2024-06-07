@@ -28,6 +28,13 @@ public class Weapon : MonoBehaviour
 
     private Ray _camRay;
 
+    private Agent _owner;
+    
+    public void InitCaster(Agent agent)
+    {
+        _owner = agent;
+    }
+    
     void Awake()
     {
         _perlin = _virCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
@@ -53,7 +60,6 @@ public class Weapon : MonoBehaviour
         {
             StartCoroutine(Shoot());
         }
-
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
@@ -63,7 +69,12 @@ public class Weapon : MonoBehaviour
         int hit = Physics.RaycastNonAlloc(_camRay, hitInfo, rayDistance, _enemyLayer);
         if (hit >= 1)
         {
-            Debug.Log(hitInfo[0]);
+            if(hitInfo[0].collider.TryGetComponent<IDamageable>(out IDamageable health))
+            {
+                int damage = _owner.Stat.GetDamage(); //주인의 데미지
+                float knockbackPower = 3f; //나중에 스탯으로부터 가져와야 해.
+                health.ApplyDamage(damage, hitInfo[0].point, hitInfo[0].normal, knockbackPower, _owner, DamageType.Range);
+            }
         }
         _isAttack = true;
 
