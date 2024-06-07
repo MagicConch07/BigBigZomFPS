@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using ObjectPooling;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private LayerMask _enemyLayer;
     [SerializeField] private GameObject _casingPrefab;
     [SerializeField] private Transform _muzzle;
     [SerializeField] private Transform _casingPos;
@@ -28,7 +31,7 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        _camRay = Camera.main.ScreenPointToRay(Vector3.forward * rayDistance);
+        _camRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
         if (Input.GetKey(KeyCode.Mouse0) && _isAttack == false)
         {
             StartCoroutine(Shoot());
@@ -51,6 +54,12 @@ public class Weapon : MonoBehaviour
 
     private IEnumerator Shoot()
     {
+        RaycastHit[] hitInfo = new RaycastHit[3];
+        int hit = Physics.RaycastNonAlloc(_camRay, hitInfo, rayDistance, _enemyLayer);
+        if (hit >= 1)
+        {
+            Debug.Log(hitInfo[0]);
+        }
         _isAttack = true;
 
         _perlin.m_AmplitudeGain = 1;
@@ -74,7 +83,7 @@ public class Weapon : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(_camRay);
+        Gizmos.DrawRay(_camRay.origin, _camRay.direction * rayDistance);
     }
 }
 

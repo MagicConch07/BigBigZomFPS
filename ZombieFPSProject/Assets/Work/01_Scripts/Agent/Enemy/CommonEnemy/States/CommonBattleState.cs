@@ -46,7 +46,6 @@ public class CommonBattleState : EnemyState<CommonStateEnum>
         else if(playerInRange)
         {
             _enemyBase.MovementCompo.StopImmediately();
-            Debug.Log("LookToTarget");
             movementCompo.LookToTarget(_enemyBase.targetTrm.position);
         }
 

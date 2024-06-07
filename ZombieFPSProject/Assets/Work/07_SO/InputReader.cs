@@ -10,12 +10,14 @@ using Vector2 = UnityEngine.Vector2;
 public class InputReader : ScriptableObject, FPSInput.IPlayerActions, FPSInput.IUIActions
 {
     public FPSInput FPSInputInstance;
+    public FPSInput.PlayerActions PlayerActionsInstance;
 
     //* UI Zone
     public event Action<bool> SettingsEvent;
     public event Action<bool> SprintEvent;
     public event Action<bool> SitEvent;
     public event Action<bool> JumpEvent;
+    public event Action FireEvent;
 
     private void OnEnable()
     {
@@ -28,6 +30,7 @@ public class InputReader : ScriptableObject, FPSInput.IPlayerActions, FPSInput.I
 
         FPSInputInstance.Player.Enable();
         FPSInputInstance.UI.Enable();
+        PlayerActionsInstance = FPSInputInstance.Player;
     }
 
     public void OnFire(InputAction.CallbackContext context)

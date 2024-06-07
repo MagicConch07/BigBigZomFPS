@@ -12,5 +12,8 @@
     <file url="file://$PROJECT_DIR$/Assets/Work/01_Scripts/Agent/Enemy/CommonEnemy/States/CommonAttackState.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Work/01_Scripts/Agent/Enemy/CommonEnemy/States/CommonBattleState.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Work/01_Scripts/Agent/Enemy/EnemyMovement.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Work/01_Scripts/Agent/Player/Player.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Work/01_Scripts/Agent/Player/States/PlayerAttackState.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Work/01_Scripts/Combat/DamageCaster.cs" charset="EUC-KR" />
   </component>
 </project>

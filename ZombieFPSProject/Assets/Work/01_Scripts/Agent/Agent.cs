@@ -19,7 +19,7 @@ public abstract class Agent : MonoBehaviour
 
     protected virtual void Awake()
     {
-        Transform visualTrm = transform.Find("ZombieVisual");
+        Transform visualTrm = transform.Find("Visual");
         AnimatorCompo = visualTrm.GetComponent<Animator>();
         MovementCompo = GetComponent<IMovement>();
         MovementCompo.Initialize(this);

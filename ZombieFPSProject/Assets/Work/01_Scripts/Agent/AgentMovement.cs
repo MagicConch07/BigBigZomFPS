@@ -1,75 +1,74 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AgentMovement : MonoBehaviour, IMovement
 {
-    [SerializeField] private float _gravity = -9.8f;
+    [SerializeField] private InputReader _inputReader;
+    
+    [Header("Ground Layer Settings")]
+    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private float _groundRayDistance;
 
-    protected CharacterController _characterController;
+    protected Rigidbody _myRigidbody;
     private Agent _agent;
-    private Quaternion _targetRotation;
 
     #region 속도 관련 로직
+
+    public float moveSpeed = 10f;
     private Vector3 _velocity;
     public Vector3 Velocity => _velocity;
-    private float _verticalVelocity;
-    private Vector3 _movementInput;
-    #endregion
+    public bool IsGround { get; private set; }
 
-    public bool IsGround => _characterController.isGrounded;
+    private Vector2 _movementInput;
+    #endregion
 
     public void Initialize(Agent agent)
     {
-        _characterController = GetComponent<CharacterController>();
+        // ! 이거 inputreader 바꿔라
+        // TODO : inputreader 쓸데없는 참조 없애고 일관성 있게 변수 관리 => 하나에서만 하셈 여러군데 하지 말고 ㅇㅋ?
+        //_inputReader = 
+        _myRigidbody = GetComponent<Rigidbody>();
         _agent = agent;
+    }
+
+    private void Update()
+    { 
+        IsGround = GroundCheck();
     }
 
     private void FixedUpdate()
     {
-        //중력 계산
-        ApplyGravity();
-        ApplyRotation();
-        //이동
+        //Movement
         Move();
-    }
-
-    private void ApplyRotation()
-    {
-        float rotateSpeed = 8f;
-        transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, Time.fixedDeltaTime * rotateSpeed);
-    }
-
-    private void ApplyGravity()
-    {
-        if (IsGround && _verticalVelocity < 0)
-        {
-            _verticalVelocity = -0.03f;
-        }
-        else
-        {
-            _verticalVelocity += _gravity * Time.fixedDeltaTime;
-        }
-        _velocity.y = _verticalVelocity;
     }
 
     private void Move()
     {
-        _characterController.Move(_velocity);
+        _movementInput = _inputReader.PlayerActionsInstance.Movement.ReadValue<Vector2>();
+        
+        _velocity = new Vector3(_movementInput.x, 0, _movementInput.y) * moveSpeed;
+        _velocity =  transform.TransformDirection(_velocity);
+        
+        _myRigidbody.velocity = new Vector3(_velocity.x, _myRigidbody.velocity.y, _velocity.z);
     }
 
-    public void SetMovement(Vector3 movement, bool isRotation = true)
+    private bool GroundCheck()
     {
-        _velocity = movement * Time.fixedDeltaTime;
-
-        if (_velocity.sqrMagnitude > 0 && isRotation == true)
-        {
-            _targetRotation = Quaternion.LookRotation(_velocity);
-        }
+        return Physics.Raycast(transform.position, Vector3.down, _groundRayDistance, _groundLayer);
     }
-
+    
     public void StopImmediately()
     {
         _velocity = Vector3.zero;
     }
+    
+    public void SetMovement(Vector3 movement, bool isRotation = true)
+    {
+        // Noting
+    }
+
 
     public void SetDestination(Vector3 destination)
     {
@@ -80,4 +79,12 @@ public class AgentMovement : MonoBehaviour, IMovement
     {
         //현재는 넉백을 구현하지 않는다.
     }
+    
+#if UNITY_EDITOR    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, Vector3.down);
+    }
+#endif
 }

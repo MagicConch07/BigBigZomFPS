@@ -37,7 +37,6 @@ public class CommonEnemy : Enemy
                 Debug.LogError($"Enemy Hammer : no State found [ {typeName} ] - {ex.Message}");
             }
         }
-
     }
 
     private void Start()

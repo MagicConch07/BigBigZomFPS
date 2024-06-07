@@ -150,7 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bf5e2f4392fdb4faced5c658c4be9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 3443301119145665523, guid: 0c8c2481f803bea42abc4ba35707293c, type: 3}
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
   _casingPrefab: {fileID: 1170647774315830, guid: eea9bcfc1d8a5b94d8df676b0c7d8ca9, type: 3}
   _muzzle: {fileID: 868526712363093607}
   _casingPos: {fileID: 2297707803730970815}
@@ -488,7 +490,6 @@ GameObject:
   - component: {fileID: 3436962806298172793}
   - component: {fileID: 7546037115852985767}
   - component: {fileID: 253979355932598268}
-  - component: {fileID: 5040694248531392514}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -564,29 +565,6 @@ MonoBehaviour:
     m_Bits: 128
   _jumpPower: 5
   _rayDistance: 1.2
---- !u!136 &5040694248531392514
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7452629881560341562}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.7
-  m_Height: 3.5
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.8, z: 0}
 --- !u!1 &7539345253773974151
 GameObject:
   m_ObjectHideFlags: 0

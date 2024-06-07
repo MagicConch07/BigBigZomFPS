@@ -17,6 +17,7 @@ public class CommonAttackState : EnemyState<CommonStateEnum>
         movementCompo.LookToTarget(_enemyBase.targetTrm.position);
     }
 
+    
     public override void Exit()
     {
         _enemyBase.lastAttackTime = Time.time;
