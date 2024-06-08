@@ -41,7 +41,7 @@ public class AgentStat : ScriptableObject
     {
         _statDictionary = new Dictionary<StatType, Stat>();
 
-        Type agentStatType = typeof(AgentStat); //ÀÌ Å¬·¡½ºÀÇ Å¸ÀÔÁ¤º¸¸¦ ºÒ·¯¿Í¼­
+        Type agentStatType = typeof(AgentStat); //ì´ í´ë˜ìŠ¤ì˜ íƒ€ì…ì •ë³´ë¥¼ ë¶ˆëŸ¬ì™€ì„œ
 
         foreach(StatType typeEnum in Enum.GetValues(typeof(StatType)))
         {
@@ -68,13 +68,13 @@ public class AgentStat : ScriptableObject
 
     public bool CanEvasion()
     {
-        //¹ÎÃ¸ 1´ç È¸ÇÇ 1ÆÛ¼¾Æ® Áõ°¡.
+        //ë¯¼ì²© 1ë‹¹ íšŒí”¼ 1í¼ì„¼íŠ¸ ì¦ê°€.
         return IsHitPercent(evasion.GetValue() + agility.GetValue() * 10);
     }
 
     public int ArmoredDamage(int incomingDamage)
     {
-        //¹æ¾î·Â 1´ç µ¥¹ÌÁö 0.5 °¨¼Ò
+        //ë°©ì–´ë ¥ 1ë‹¹ ë°ë¯¸ì§€ 0.5 ê°ì†Œ
         return Mathf.Max(1, incomingDamage - Mathf.FloorToInt(armor.GetValue() * 0.5f));
     }
 
