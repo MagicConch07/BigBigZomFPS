@@ -19,6 +19,7 @@ public class CommonBattleState : EnemyState<CommonStateEnum>
         Collider target = _enemyBase.IsPlayerDetected();
         if (target == null)
         {
+            // todo : 만약에 여기서 맞은 상태면 idle로 전환되지 않고 따라가게 해야 함
             // 다시 idle로 전환
             _stateMachine.ChangeState(CommonStateEnum.Idle);
         }

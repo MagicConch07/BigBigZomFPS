@@ -64,8 +64,8 @@ public class EnemyMovement : MonoBehaviour, IMovement
 
     private IEnumerator ApplyKnockbackCoroutine(Vector3 force)
     {
-        print("knockBack");
-        _navAgent.enabled = false;
+        StopImmediately();
+        
         _rbCompo.isKinematic = false;
         _rbCompo.AddForce(force, ForceMode.Impulse);
         _knockbackStartTime = Time.time;
@@ -84,8 +84,7 @@ public class EnemyMovement : MonoBehaviour, IMovement
 
         DisableRigidbody();
 
-        _navAgent.Warp(transform.position);
-        _navAgent.enabled = true;
+        //_navAgent.Warp(transform.position);
         _isKnockback = false;
 
         yield return null;

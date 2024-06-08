@@ -17,6 +17,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private GameObject _casingPrefab;
     [SerializeField] private Transform _casingPos;
     
+    [SerializeField] private float _knockbackPower = 1f;
+    
     [SerializeField] private CinemachineVirtualCamera _virCam;
     private CinemachineBasicMultiChannelPerlin _perlin;
 
@@ -72,8 +74,8 @@ public class Weapon : MonoBehaviour
             if(hitInfo[0].collider.TryGetComponent<IDamageable>(out IDamageable health))
             {
                 int damage = _owner.Stat.GetDamage(); //주인의 데미지
-                float knockbackPower = 3f; //나중에 스탯으로부터 가져와야 해.
-                health.ApplyDamage(damage, hitInfo[0].point, hitInfo[0].normal, knockbackPower, _owner, DamageType.Range);
+                //float knockbackPower = 3f; // todo : 나중에 스탯으로부터 가져와야 해.
+                health.ApplyDamage(damage, hitInfo[0].point, hitInfo[0].normal, _knockbackPower, _owner, DamageType.Range);
             }
         }
         _isAttack = true;
