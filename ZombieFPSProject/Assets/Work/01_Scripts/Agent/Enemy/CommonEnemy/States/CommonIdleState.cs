@@ -24,7 +24,7 @@ public class CommonIdleState : EnemyState<CommonStateEnum>
     public override void UpdateState()
     {
         base.UpdateState();
-
+        
         if (_endTriggerCalled)
         {
             _enemyBase.AnimatorCompo.SetBool(_idleAction2, false);

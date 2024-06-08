@@ -47,11 +47,15 @@ public class CommonEnemy : Enemy
     private void Update()
     {
         StateMachine.CurrentState.UpdateState();
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            StateMachine.ChangeState(CommonStateEnum.Idle);
+        }
     }
 
     public void Damage()
     {
-        StateMachine.ChangeState(CommonStateEnum.Idle);
         StateMachine.ChangeState(CommonStateEnum.Damage);
     }
 

@@ -66,7 +66,6 @@ public class EnemyMovement : MonoBehaviour, IMovement
     {
         print("knockBack");
         _navAgent.enabled = false;
-        _rbCompo.useGravity = true;
         _rbCompo.isKinematic = false;
         _rbCompo.AddForce(force, ForceMode.Impulse);
         _knockbackStartTime = Time.time;
@@ -101,7 +100,6 @@ public class EnemyMovement : MonoBehaviour, IMovement
     {
         _rbCompo.velocity = Vector3.zero;
         _rbCompo.angularVelocity = Vector3.zero;
-        _rbCompo.useGravity = false;
         _rbCompo.isKinematic = true;
     }
 }

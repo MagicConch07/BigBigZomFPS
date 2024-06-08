@@ -3624,6 +3624,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4834526503407549940, guid: 862af0abcb0e5f44b91611fd33b132c7, type: 3}
     - target: {fileID: 9020862101063905849, guid: 5dbae91e866674f4c801de06578ac142, type: 3}
+      propertyPath: rayDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020862101063905849, guid: 5dbae91e866674f4c801de06578ac142, type: 3}
       propertyPath: _inputReader
       value: 
       objectReference: {fileID: 11400000, guid: 783311ebbca53f14c8b494d0b7de227a, type: 2}

@@ -12,6 +12,7 @@ public class CommonDamageState : EnemyState<CommonStateEnum>
     public override void Enter()
     {
         base.Enter();
+        _enemyBase.AnimatorCompo.Play(_animBoolHash, -1, 0f);
         _enemyBase.MovementCompo.StopImmediately();
     }
 
@@ -20,10 +21,5 @@ public class CommonDamageState : EnemyState<CommonStateEnum>
         base.UpdateState();
         if (_endTriggerCalled)
             _stateMachine.ChangeState(CommonStateEnum.Idle);
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
     }
 }
