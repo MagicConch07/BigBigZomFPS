@@ -12,7 +12,14 @@ public class CommonDamageState : EnemyState<CommonStateEnum>
     public override void Enter()
     {
         base.Enter();
-        
+        _enemyBase.MovementCompo.StopImmediately();
+    }
+
+    public override void UpdateState()
+    {
+        base.UpdateState();
+        if (_endTriggerCalled)
+            _stateMachine.ChangeState(CommonStateEnum.Idle);
     }
 
     public override void Exit()

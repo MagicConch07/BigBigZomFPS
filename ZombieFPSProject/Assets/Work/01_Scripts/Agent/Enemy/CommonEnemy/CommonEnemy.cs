@@ -49,6 +49,12 @@ public class CommonEnemy : Enemy
         StateMachine.CurrentState.UpdateState();
     }
 
+    public void Damage()
+    {
+        StateMachine.ChangeState(CommonStateEnum.Idle);
+        StateMachine.ChangeState(CommonStateEnum.Damage);
+    }
+
     public override void Attack()
     {
         //여기서 나중에 실제 공격처리를 하겠지.

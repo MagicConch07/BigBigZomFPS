@@ -15,6 +15,7 @@ public class EnemyMovement : MonoBehaviour, IMovement
     public NavMeshAgent NavAgent => _navAgent;
 
     private Enemy _enemy;
+    private CommonEnemy _commonEnemy;
     private NavMeshAgent _navAgent;
     private Rigidbody _rbCompo;
 
@@ -24,6 +25,7 @@ public class EnemyMovement : MonoBehaviour, IMovement
     public void Initialize(Agent agent)
     {
         _enemy = agent as Enemy;
+        _commonEnemy = GetComponent<CommonEnemy>();
         _navAgent = GetComponent<NavMeshAgent>();
         _navAgent.speed = _enemy.moveSpeed;
         _rbCompo = GetComponent<Rigidbody>();
@@ -56,11 +58,13 @@ public class EnemyMovement : MonoBehaviour, IMovement
 
     public void GetKnockback(Vector3 force)
     {
+        _commonEnemy.Damage();
         StartCoroutine(ApplyKnockbackCoroutine(force));
     }
 
     private IEnumerator ApplyKnockbackCoroutine(Vector3 force)
     {
+        print("knockBack");
         _navAgent.enabled = false;
         _rbCompo.useGravity = true;
         _rbCompo.isKinematic = false;
@@ -86,7 +90,6 @@ public class EnemyMovement : MonoBehaviour, IMovement
         _isKnockback = false;
 
         yield return null;
-
     }
 
     private void DisableAgent()

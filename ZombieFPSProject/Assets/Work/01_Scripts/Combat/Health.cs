@@ -65,7 +65,6 @@ public class Health : MonoBehaviour, IDamageable
         {
             OnDeadEvent?.Invoke();
         }
-
     }
 
     private void ApplyKnockback(Vector3 force)
