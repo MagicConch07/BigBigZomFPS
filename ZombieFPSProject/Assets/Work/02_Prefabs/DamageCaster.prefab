@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265253d22db54af47bcaf4b982afe1ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _casterRadius: 1
-  _casterInterpolation: 0.5
-  _castingRange: 1
+  _casterRadius: 1.5
+  _casterInterpolation: 0.8
+  _castingRange: 3
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8

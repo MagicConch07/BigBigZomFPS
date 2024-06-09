@@ -33,7 +33,7 @@ public class DamageCaster : MonoBehaviour
 
         if(isHit)
         {
-            //Debug.Log($"타격 : {hit.collider.name}");
+            Debug.Log($"타격 : {hit.collider.name}");
             if(hit.collider.TryGetComponent<IDamageable>(out IDamageable health))
             {
                 int damage = _owner.Stat.GetDamage(); //주인의 데미지

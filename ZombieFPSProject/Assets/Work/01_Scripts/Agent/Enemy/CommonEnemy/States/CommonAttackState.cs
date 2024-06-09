@@ -15,6 +15,7 @@ public class CommonAttackState : EnemyState<CommonStateEnum>
         _enemyBase.MovementCompo.StopImmediately();
         //플레이어 위치를 바라보도록 회전하고
         movementCompo.LookToTarget(_enemyBase.targetTrm.position);
+        _enemyBase.DamageCasterCompo.CastDamage();
     }
 
     

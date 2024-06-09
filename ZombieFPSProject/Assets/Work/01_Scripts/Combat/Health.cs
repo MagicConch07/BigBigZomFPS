@@ -11,6 +11,7 @@ public class Health : MonoBehaviour, IDamageable
 
     private Agent _owner;
     private int _currentHealth;
+    public int CurrentHealth { get => _currentHealth; }
 
     public void Initialize(Agent agent)
     {
