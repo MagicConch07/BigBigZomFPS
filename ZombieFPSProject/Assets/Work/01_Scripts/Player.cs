@@ -13,7 +13,8 @@ namespace Work._01_Scripts
         {
             base.Awake();
             _weapon.InitCaster(this);
-            
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             //! 이거 진짜 분리 해야 해
         }
 

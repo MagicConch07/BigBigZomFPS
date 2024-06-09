@@ -1,11 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using ObjectPooling;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Weapon : MonoBehaviour
 {
@@ -71,6 +68,9 @@ public class Weapon : MonoBehaviour
         int hit = Physics.RaycastNonAlloc(_camRay, hitInfo, rayDistance, _enemyLayer);
         if (hit >= 1)
         {
+            ZombieHit zombieHit = PoolManager.Instance.Pop(PoolingType.ZombieHit) as ZombieHit;
+            zombieHit.transform.position = hitInfo[0].point;
+                
             if(hitInfo[0].collider.TryGetComponent<IDamageable>(out IDamageable health))
             {
                 int damage = _owner.Stat.GetDamage(); //주인의 데미지
@@ -99,7 +99,7 @@ public class Weapon : MonoBehaviour
 
     private void CreateBullet()
     {
-        Bullet bulletObj = PoolManager.Instance.Pop(PoolingType.Bullet_5_56x45) as Bullet;
+        Bullet bulletObj = PoolManager.Instance.Pop(PoolingType.Bullet) as Bullet;
         
         // 라이더 왈 캐싱이 더 빠르다
         bulletObj.transform.position = _muzzle.position;
@@ -111,7 +111,7 @@ public class Weapon : MonoBehaviour
     }
 
     #if UNITY_EDITOR
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawRay(_camRay.origin, _camRay.direction * rayDistance);

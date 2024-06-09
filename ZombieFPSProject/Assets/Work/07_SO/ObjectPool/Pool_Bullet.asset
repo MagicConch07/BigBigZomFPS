@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1ecf68f36675214fac4fabf53ae014a, type: 3}
-  m_Name: Pool_Bullet_5_56x45
+  m_Name: Pool_Bullet
   m_EditorClassIdentifier: 
-  enumName: Bullet_5_56x45
-  poolingName: 5.56x45_Bullet
-  description: 5.56x45_Bullet
-  poolCount: 100
+  enumName: Bullet
+  poolingName: Bullet
+  description: Bullet Trail
+  poolCount: 90
   prefab: {fileID: 222073080430221268, guid: 6393ee9cee9831f4c86ab5a78ea2a655, type: 3}
