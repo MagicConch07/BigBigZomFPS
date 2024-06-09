@@ -25,7 +25,7 @@ namespace Work._01_Scripts
 
         public override void SetDead()
         {
-            isDead = true;
+            //isDead = true;
             Debug.LogError("Player Die!!!");
         }
     }

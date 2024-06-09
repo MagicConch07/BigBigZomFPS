@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerCamera : MonoBehaviour
 {
@@ -10,6 +9,7 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private Rigidbody _myrigid;
     
     // Cam Setting
+    [SerializeField] private Transform _eye;
     [SerializeField] private float _sensitivity = 0.1f;
     [SerializeField] private float cameraRotationLimit;
     private Quaternion rotationCamera;
@@ -40,6 +40,16 @@ public class PlayerCamera : MonoBehaviour
         rotationCharacter *= rotationYaw;
 
         _myrigid.MoveRotation(_myrigid.rotation * rotationYaw);
+    }
+
+    public float DG_Duration = 0.5f;
+    public Vector3 DG_Strength = Vector3.one;
+    public int DG_Vibrato = 10;
+    
+    
+    public void HitPlayer()
+    {
+        _eye.DOShakeRotation(DG_Duration, DG_Strength, DG_Vibrato, 1f, false);
     }
     
     private void CameraRotation()
