@@ -62,6 +62,7 @@ public class CommonEnemy : Enemy
     public override void Attack()
     {
         //여기서 나중에 실제 공격처리를 하겠지.
+        DamageCasterCompo.CastDamage();
     }
 
     public override void AnimationEndTrigger()

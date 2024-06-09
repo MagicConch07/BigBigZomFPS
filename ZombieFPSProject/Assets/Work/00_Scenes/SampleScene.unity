@@ -2454,7 +2454,19 @@ MonoBehaviour:
   _enemy: {fileID: 1584062613}
   OnAnimationEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1584062613}
+        m_TargetAssemblyTypeName: CommonEnemy, Assembly-CSharp
+        m_MethodName: Attack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1251842557 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7870012270389218163, guid: feb436c93807d9e4d8b05ed695217272, type: 3}
@@ -4113,7 +4125,19 @@ MonoBehaviour:
   _enemy: {fileID: 586175357}
   OnAnimationEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 586175357}
+        m_TargetAssemblyTypeName: CommonEnemy, Assembly-CSharp
+        m_MethodName: Attack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!137 &4100917979209452216 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6191148046445867625, guid: dc784f1e2c6f6d54b8293b4c211c2905, type: 3}
