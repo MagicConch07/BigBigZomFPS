@@ -157,6 +157,7 @@ MonoBehaviour:
   _muzzle: {fileID: 868526712363093607}
   _casingPrefab: {fileID: 1170647774315830, guid: eea9bcfc1d8a5b94d8df676b0c7d8ca9, type: 3}
   _casingPos: {fileID: 2297707803730970815}
+  _knockbackPower: 1
   _virCam: {fileID: 8256045889159331398}
   rayDistance: 10
   _fireRate: 0.07
@@ -490,7 +491,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3436962806298172793}
   - component: {fileID: 7546037115852985767}
-  - component: {fileID: 253979355932598268}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -542,26 +542,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &253979355932598268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7452629881560341562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7738a26d7d1e49541bb279c09780af43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _inputReader: {fileID: 11400000, guid: 783311ebbca53f14c8b494d0b7de227a, type: 2}
-  _virtualCam: {fileID: 5624110699347147337}
-  speed: 12
-  _jumpPower: 5
-  _rayDistance: 1.2
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!1 &7539345253773974151
 GameObject:
   m_ObjectHideFlags: 0

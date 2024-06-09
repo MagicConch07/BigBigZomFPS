@@ -34,7 +34,6 @@ public class CommonDeadState : EnemyState<CommonStateEnum>
         }
     }
 
-
     //아직 안한게 넉백중일때는 처리해줘야 해.
     public override void UpdateState()
     {
