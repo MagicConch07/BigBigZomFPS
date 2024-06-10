@@ -4484,6 +4484,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 3684837534125905193, guid: 5dbae91e866674f4c801de06578ac142, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3684837534125905193, guid: 5dbae91e866674f4c801de06578ac142, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3684837534125905193, guid: 5dbae91e866674f4c801de06578ac142, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3706210729942463288, guid: 5dbae91e866674f4c801de06578ac142, type: 3}
       propertyPath: m_Layer
       value: 0
