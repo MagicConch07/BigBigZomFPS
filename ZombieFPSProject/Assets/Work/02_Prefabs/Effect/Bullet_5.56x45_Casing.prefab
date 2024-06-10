@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 114656296948353400}
   - component: {fileID: 199448775103739270}
   - component: {fileID: 82638744536697626}
+  - component: {fileID: -6352122907874798615}
   m_Layer: 0
   m_Name: Bullet_5.56x45_Casing
   m_TagString: Untagged
@@ -44,7 +45,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1170647774315830}
   serializedVersion: 8
-  lengthInSec: 0.75
+  lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 2
   cullingMode: 3
@@ -172,7 +173,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 30
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -668,13 +669,13 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 19.061142
+    angle: 20
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: -128, y: 109.9, z: -90}
+    m_Rotation: {x: -140, y: 100, z: -90}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -3501,8 +3502,8 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 34.906586
-      minScalar: 34.906586
+      scalar: 17.453293
+      minScalar: 17.453293
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4806,7 +4807,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: e3428724108279a4090759bf970abe56, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4955,6 +4955,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-6352122907874798615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170647774315830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efb38cd4c919da24897862831dcd650f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
+  _disableParticleTime: 0.5
 --- !u!1 &1209773951177568
 GameObject:
   m_ObjectHideFlags: 0
@@ -9758,7 +9772,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 4ffdec15c15904c40a2911fc5bc5d4eb, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

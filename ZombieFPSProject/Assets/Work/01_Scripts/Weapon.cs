@@ -1,4 +1,4 @@
-using System;
+using DG.Tweening;
 using System.Collections;
 using Cinemachine;
 using ObjectPooling;
@@ -11,19 +11,19 @@ public class Weapon : MonoBehaviour
     [SerializeField] private LayerMask _enemyLayer;
     [SerializeField] private Transform _muzzle;
     
-    [SerializeField] private GameObject _casingPrefab;
-    [SerializeField] private Transform _casingPos;
+    [SerializeField] private Transform _casingTrm;
     
     [SerializeField] private float _knockbackPower = 1f;
     
     [SerializeField] private CinemachineVirtualCamera _virCam;
     private CinemachineBasicMultiChannelPerlin _perlin;
 
+    [SerializeField] private Transform _gun;
+
     public float rayDistance = 10f;
     public float _fireRate = 0.2f;
 
     private bool _isAttack = false;
-    private bool _isTest = false;
 
     private Ray _camRay;
 
@@ -42,20 +42,8 @@ public class Weapon : MonoBehaviour
     void Update()
     {
         _camRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
+        // Todo : ChangeInput System
         if (Input.GetKey(KeyCode.Mouse0) && _isAttack == false)
-        {
-            StartCoroutine(Shoot());
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            if (_isTest == false)
-                _isTest = true;
-            else
-                _isTest = false;
-        }
-
-        while (_isTest && _isAttack == false)
         {
             StartCoroutine(Shoot());
         }
@@ -80,15 +68,27 @@ public class Weapon : MonoBehaviour
         }
         _isAttack = true;
 
-        PerlinCam(1, 1);
+        //! Cam 
+        //PerlinCam(1, 1);
+        Recoil();
         
         CreateBullet();
         
         yield return new WaitForSeconds(_fireRate);
 
-        PerlinCam();
+        //! Cam
+        //PerlinCam();
         
         _isAttack = false;
+    }
+
+    [Header("Gun Settings")] 
+    public float DG_Duration = 0.5f;
+    public int DG_Vibrato = 10;
+
+    private void Recoil()
+    {
+        _gun.transform.DOShakeRotation(DG_Duration, new Vector3(-7, 0, 0), DG_Vibrato, 0f, false);
     }
 
     private void PerlinCam(int amplitude = 0, int frequency = 0)
@@ -99,15 +99,18 @@ public class Weapon : MonoBehaviour
 
     private void CreateBullet()
     {
+        //? 이거 뭔가 꺼림직해 너무 불편해 코드 재활용 해야 돼
         Bullet bulletObj = PoolManager.Instance.Pop(PoolingType.Bullet) as Bullet;
-        
-        // 라이더 왈 캐싱이 더 빠르다
-        bulletObj.transform.position = _muzzle.position;
-        bulletObj.transform.rotation = _muzzle.rotation;
+        if (bulletObj != null) PosToTarget(bulletObj.transform, _muzzle);
 
-        GameObject casingObj = Instantiate(_casingPrefab);
-        casingObj.transform.position = _casingPos.position;
-        casingObj.transform.rotation = _casingPos.rotation;
+        CasingBullet casingObj = PoolManager.Instance.Pop(PoolingType.CasingBullet) as CasingBullet;
+        if (casingObj != null) PosToTarget(casingObj.transform, _casingTrm);
+    }
+
+    private void PosToTarget(Transform target, Transform pos)
+    {
+        target.position = pos.position;
+        target.rotation = pos.rotation;
     }
 
     #if UNITY_EDITOR
