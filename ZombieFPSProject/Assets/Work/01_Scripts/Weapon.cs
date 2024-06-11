@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using System.Collections;
 using Cinemachine;
@@ -6,29 +7,62 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    #region Player Valuse
+    
+    private Agent _owner;
     [SerializeField] private InputReader _inputReader;
     
+    #endregion
+
+    #region Gun Values
+
+    [Header("Gun Setting")]
+    [SerializeField] private Transform _gun;
     [SerializeField] private LayerMask _enemyLayer;
     [SerializeField] private Transform _muzzle;
     [SerializeField] private Transform _casingTrm;
-    [SerializeField] private Transform _flameMuzzle;
-    
     [SerializeField] private float _knockbackPower = 1f;
+    // todo : 이거는 플레이어 스탯으로 빼자
+    public float rayDistance = 50f;
+    public float _fireRate = 0.12f;
     
+    [Header("Gun Tween")] 
+    public float DG_Duration = 0.12f;
+    public float endDuration = 0.3f;
+    public float duration = 0.1f;
+    public float gun_power = -5;
+    public float recoPower = 0.38f;
+    private Sequence _gunSequence;
+    
+    [Header("Muzzle Tween")]
+    [SerializeField] private Transform _muzzleTrm;
+    public Vector3 muzzle_Str;
+    public int muzzle_Vibrato;
+    public float muzzle_duration;
+    private Sequence _muzzleSequence;
+    
+    private bool _isAttack = false;
+    #endregion
+    
+    #region Camera Valuse
+    [Header("Cam Settings")]
     [SerializeField] private CinemachineVirtualCamera _virCam;
     private CinemachineBasicMultiChannelPerlin _perlin;
-
-    [SerializeField] private Transform _gun;
-
-    public float rayDistance = 10f;
-    public float _fireRate = 0.2f;
-
-    private bool _isAttack = false;
-
-    private Ray _camRay;
-
-    private Agent _owner;
     
+    [Header("Cam Tween Settings")]
+    public float DG_ShakePositionDuration = 0.5f;
+    public float power = -3;
+    public int DG_Vibrato = 10;
+    public Vector3 Cam_Strength = Vector3.one;
+    private Sequence _CamSequence;
+    
+    private Ray _camRay;
+    #endregion
+
+    #region  Event
+    public event Action OnFireFlame; 
+
+    #endregion
     public void InitCaster(Agent agent)
     {
         _owner = agent;
@@ -61,8 +95,7 @@ public class Weapon : MonoBehaviour
 
             if(hitInfo[0].collider.TryGetComponent<IDamageable>(out IDamageable health))
             {
-                int damage = _owner.Stat.GetDamage(); //주인의 데미지
-                //float knockbackPower = 3f; // todo : 나중에 스탯으로부터 가져와야 해.
+                int damage = _owner.Stat.GetDamage(); // Onwer Damage
                 health.ApplyDamage(damage, hitInfo[0].point, hitInfo[0].normal, _knockbackPower, _owner, DamageType.Range);
             }
         }
@@ -84,21 +117,12 @@ public class Weapon : MonoBehaviour
         _isAttack = false;
     }
     
-    private Sequence _muzzleSequence;
-    [SerializeField] private Transform _muzzleTrm;
-    public Vector3 muzzle_Str;
-    public int muzzle_Vibrato;
-    public float muzzle_duration;
-    
     private void MuzzleTween()
     {
         _muzzleSequence = DOTween.Sequence()
             .Append(_muzzleTrm.DOShakeRotation(muzzle_duration, muzzle_Str, muzzle_Vibrato, 1, false));
     }
-
-    public float power = -3;
-    public Vector3 Cam_Strength = Vector3.one;
-    private Sequence _CamSequence;
+    
     private void CamTween()
     {
         _CamSequence = DOTween.Sequence()
@@ -109,30 +133,13 @@ public class Weapon : MonoBehaviour
                 _virCam.transform.DOLocalRotate(new Vector3(0, 0, 0), DG_Duration, RotateMode.Fast);
             });
     }
-
-    [Header("Gun Settings")] 
-    public float DG_Duration = 0.3f;
-    public float endDuration = 0.5f;
-
-    public float duration = 0.1f;
     
-    public float DG_ShakePositionDuration = 0.5f;
-    public float gun_power = -5;
-    public Vector3 DG_Strength = Vector3.one;
-    public int DG_Vibrato = 10;
-    public float recoPower = 0.38f;
-
-    private Sequence _gunSequence;
-
     private void Recoil()
     {
-        //! 주석 알잘딱
         _gunSequence = DOTween.Sequence()
             .Append(_gun.DOLocalRotate(new Vector3(gun_power, 0, 0), DG_Duration, RotateMode.Fast).SetEase(Ease.Linear))
             .Join(_gun.DOLocalMoveZ(recoPower, duration, false).SetEase(Ease.InOutQuad))
             .Append(_gun.DOLocalMoveZ(0, duration, false).SetEase(Ease.InOutQuad))
-            //.Join(_gun.DOShakePosition(DG_ShakePositionDuration, DG_Strength, DG_Vibrato, 0.3f, false))
-            //.Append(_gun.DOLocalMoveZ(recoPower, 0.2f, true).SetEase(Ease.Linear))
             .OnComplete(() =>
             {
                 _gun.DOLocalRotate(new Vector3(0, 0, 0), endDuration, RotateMode.Fast);
@@ -147,23 +154,15 @@ public class Weapon : MonoBehaviour
 
     private void CreateBullet()
     {
-        //? 이거 뭔가 꺼림직해 너무 불편해 코드 재활용 해야 돼 
-        //! 아니 3번은 개 에반데
-        Bullet bulletObj = PoolManager.Instance.Pop(PoolingType.Bullet) as Bullet;
-        if (bulletObj != null) TargetToPos(bulletObj.transform, _muzzle);
-
-        CasingBullet casingObj = PoolManager.Instance.Pop(PoolingType.CasingBullet) as CasingBullet;
-        if (casingObj != null) TargetToPos(casingObj.transform, _casingTrm);
-        
-        MuzzleFlame flameObj = PoolManager.Instance.Pop(PoolingType.MuzzleFlame) as MuzzleFlame;
-        if (flameObj != null) TargetToPos(flameObj.transform, _flameMuzzle);
+        PoolObjTargetToPos(PoolingType.Bullet, _muzzle);
+        PoolObjTargetToPos(PoolingType.CasingBullet, _casingTrm);
+        OnFireFlame?.Invoke();
     }
     
-    //! 이거 선배한테 물어보자
-    private void PoolObjTargetToPos <T>(T type, PoolingType poolType, Transform target) where T : class
+    private void PoolObjTargetToPos (PoolingType poolType, Transform target)
     {
-        T obj = PoolManager.Instance.Pop(poolType) as T;
-        if (obj != null) TargetToPos(obj as Transform, target);
+        PoolableMono obj = PoolManager.Instance.Pop(poolType);
+        if (obj != null) TargetToPos(obj.transform, target);
     }
 
     private void TargetToPos(Transform pos, Transform target)
