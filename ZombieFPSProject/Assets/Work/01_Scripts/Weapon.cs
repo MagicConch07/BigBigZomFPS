@@ -27,15 +27,14 @@ public class Weapon : MonoBehaviour
     public float _fireRate = 0.12f;
     
     [Header("Gun Tween")] 
-    public float DG_Duration = 0.12f;
+    public float gunRotationDuration = 0.12f;
     public float endDuration = 0.3f;
-    public float duration = 0.1f;
+    public float gunTweenBackDuration = 0.1f;
     public float gun_power = -5;
-    public float recoPower = 0.38f;
+    public float recoilPosPower = -0.07f;
     private Sequence _gunSequence;
     
     [Header("Muzzle Tween")]
-    [SerializeField] private Transform _muzzleTrm;
     public Vector3 muzzle_Str;
     public int muzzle_Vibrato;
     public float muzzle_duration;
@@ -48,8 +47,9 @@ public class Weapon : MonoBehaviour
     [Header("Cam Settings")]
     [SerializeField] private CinemachineVirtualCamera _virCam;
     private CinemachineBasicMultiChannelPerlin _perlin;
-    
-    [Header("Cam Tween Settings")]
+
+    [Header("Cam Tween Settings")] 
+    public float camTweenDuration = 0.05f;
     public float DG_ShakePositionDuration = 0.5f;
     public float power = -3;
     public int DG_Vibrato = 10;
@@ -120,29 +120,29 @@ public class Weapon : MonoBehaviour
     private void MuzzleTween()
     {
         _muzzleSequence = DOTween.Sequence()
-            .Append(_muzzleTrm.DOShakeRotation(muzzle_duration, muzzle_Str, muzzle_Vibrato, 1, false));
+            .Append(_muzzle.DOShakeRotation(muzzle_duration, muzzle_Str, muzzle_Vibrato, 1, false));
     }
     
     private void CamTween()
     {
         _CamSequence = DOTween.Sequence()
-            .Append(_virCam.transform.DOLocalRotate(new Vector3(power, 0, 0), DG_Duration, RotateMode.Fast))
+            .Append(_virCam.transform.DOLocalRotate(new Vector3(power, 0, 0), camTweenDuration, RotateMode.Fast))
             .Join(_virCam.transform.DOShakePosition(DG_ShakePositionDuration, Cam_Strength, DG_Vibrato, 1, false))
             .OnComplete(() =>
             {
-                _virCam.transform.DOLocalRotate(new Vector3(0, 0, 0), DG_Duration, RotateMode.Fast);
+                _virCam.transform.DOLocalRotate(new Vector3(0, 0, 0), camTweenDuration, RotateMode.Fast);
             });
     }
     
     private void Recoil()
     {
         _gunSequence = DOTween.Sequence()
-            .Append(_gun.DOLocalRotate(new Vector3(gun_power, 0, 0), DG_Duration, RotateMode.Fast).SetEase(Ease.Linear))
-            .Join(_gun.DOLocalMoveZ(recoPower, duration, false).SetEase(Ease.InOutQuad))
-            .Append(_gun.DOLocalMoveZ(0, duration, false).SetEase(Ease.InOutQuad))
+            .Append(_gun.DOLocalRotate(new Vector3(gun_power, 0, 0), gunRotationDuration).SetEase(Ease.Linear))
+            .Join(_gun.DOLocalMoveZ(recoilPosPower, gunTweenBackDuration).SetEase(Ease.InOutQuad))
+            .Append(_gun.DOLocalMoveZ(0, gunTweenBackDuration).SetEase(Ease.InOutQuad))
             .OnComplete(() =>
             {
-                _gun.DOLocalRotate(new Vector3(0, 0, 0), endDuration, RotateMode.Fast);
+                _gun.DOLocalRotate(new Vector3(0, 0, 0), endDuration);
             });
     }
 
