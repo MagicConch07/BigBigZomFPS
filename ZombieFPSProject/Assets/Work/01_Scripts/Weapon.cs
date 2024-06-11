@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using System.Collections;
 using Cinemachine;
@@ -71,9 +70,7 @@ public class Weapon : MonoBehaviour
 
         //! Cam 
         //PerlinCam(1, 1);
-        //CamTween();
         Recoil();
-        MuzzleTween();
         
         CreateBullet();
         
@@ -84,59 +81,14 @@ public class Weapon : MonoBehaviour
         
         _isAttack = false;
     }
-    
-    private Sequence _muzzleSequence;
-    [SerializeField] private Transform _muzzleTrm;
-    public Vector3 muzzle_Str;
-    public int muzzle_Vibrato;
-    public float muzzle_duration;
-    
-    private void MuzzleTween()
-    {
-        _muzzleSequence = DOTween.Sequence()
-            .Append(_muzzleTrm.DOShakeRotation(muzzle_duration, muzzle_Str, muzzle_Vibrato, 1, false));
-    }
-
-    public float power = -3;
-    public Vector3 Cam_Strength = Vector3.one;
-    private Sequence _CamSequence;
-    private void CamTween()
-    {
-        _CamSequence = DOTween.Sequence()
-            .Append(_virCam.transform.DOLocalRotate(new Vector3(power, 0, 0), DG_Duration, RotateMode.Fast))
-            .Join(_virCam.transform.DOShakePosition(DG_ShakePositionDuration, Cam_Strength, DG_Vibrato, 1, false))
-            .OnComplete(() =>
-            {
-                _virCam.transform.DOLocalRotate(new Vector3(0, 0, 0), DG_Duration, RotateMode.Fast);
-            });
-    }
 
     [Header("Gun Settings")] 
-    public float DG_Duration = 0.3f;
-    public float endDuration = 0.5f;
-
-    public float duration = 0.1f;
-    
-    public float DG_ShakePositionDuration = 0.5f;
-    public float gun_power = -5;
-    public Vector3 DG_Strength = Vector3.one;
+    public float DG_Duration = 0.5f;
     public int DG_Vibrato = 10;
-    public float recoPower = 0.38f;
 
-    private Sequence _gunSequence;
     private void Recoil()
     {
-        //! 주석 알잘딱
-        _gunSequence = DOTween.Sequence()
-            .Append(_gun.DOLocalRotate(new Vector3(gun_power, 0, 0), DG_Duration, RotateMode.Fast).SetEase(Ease.Linear))
-            .Join(_gun.DOLocalMoveZ(recoPower, duration, false).SetEase(Ease.InOutQuad))
-            .Append(_gun.DOLocalMoveZ(0, duration, false).SetEase(Ease.InOutQuad))
-            //.Join(_gun.DOShakePosition(DG_ShakePositionDuration, DG_Strength, DG_Vibrato, 0.3f, false))
-            //.Append(_gun.DOLocalMoveZ(recoPower, 0.2f, true).SetEase(Ease.Linear))
-            .OnComplete(() =>
-            {
-                _gun.DOLocalRotate(new Vector3(0, 0, 0), endDuration, RotateMode.Fast);
-            });
+        _gun.transform.DOShakeRotation(DG_Duration, new Vector3(-7, 0, 0), DG_Vibrato, 0f, false);
     }
 
     private void PerlinCam(int amplitude = 0, int frequency = 0)

@@ -25,7 +25,7 @@ MonoBehaviour:
     modifiers: 
     isPercent: 0
   maxHealth:
-    _baseValue: 10
+    _baseValue: 1000
     modifiers: 
     isPercent: 0
   criticalChance:
