@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1ecf68f36675214fac4fabf53ae014a, type: 3}
-  m_Name: Pool_ZombieHit
+  m_Name: Pool_MuzzleFlame
   m_EditorClassIdentifier: 
-  enumName: ZombieHit
-  poolingName: ZombieHit
-  description: Zombie Hit Particle
+  enumName: MuzzleFlame
+  poolingName: MuzzleFlame
+  description: MuzzleFlame
   poolCount: 40
-  prefab: {fileID: 9129875976497508404, guid: 399890371c716b744bfe052df3fb52cc, type: 3}
+  prefab: {fileID: 6534626196123452875, guid: ffdba381c0c34b440ae5c610307d01a7, type: 3}

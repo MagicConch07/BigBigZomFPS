@@ -15,5 +15,5 @@ MonoBehaviour:
   enumName: Bullet
   poolingName: Bullet
   description: Bullet Trail
-  poolCount: 90
+  poolCount: 60
   prefab: {fileID: 222073080430221268, guid: 6393ee9cee9831f4c86ab5a78ea2a655, type: 3}

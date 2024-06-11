@@ -10,8 +10,8 @@ public class Weapon : MonoBehaviour
     
     [SerializeField] private LayerMask _enemyLayer;
     [SerializeField] private Transform _muzzle;
-    
     [SerializeField] private Transform _casingTrm;
+    [SerializeField] private Transform _flameMuzzle;
     
     [SerializeField] private float _knockbackPower = 1f;
     
@@ -57,8 +57,8 @@ public class Weapon : MonoBehaviour
         if (hit >= 1)
         {
             ZombieHit zombieHit = PoolManager.Instance.Pop(PoolingType.ZombieHit) as ZombieHit;
-            zombieHit.transform.position = hitInfo[0].point;
-                
+            if (zombieHit != null) zombieHit.transform.position = hitInfo[0].point;
+
             if(hitInfo[0].collider.TryGetComponent<IDamageable>(out IDamageable health))
             {
                 int damage = _owner.Stat.GetDamage(); //주인의 데미지
@@ -70,7 +70,9 @@ public class Weapon : MonoBehaviour
 
         //! Cam 
         //PerlinCam(1, 1);
+        //CamTween();
         Recoil();
+        MuzzleTween();
         
         CreateBullet();
         
@@ -81,14 +83,60 @@ public class Weapon : MonoBehaviour
         
         _isAttack = false;
     }
+    
+    private Sequence _muzzleSequence;
+    [SerializeField] private Transform _muzzleTrm;
+    public Vector3 muzzle_Str;
+    public int muzzle_Vibrato;
+    public float muzzle_duration;
+    
+    private void MuzzleTween()
+    {
+        _muzzleSequence = DOTween.Sequence()
+            .Append(_muzzleTrm.DOShakeRotation(muzzle_duration, muzzle_Str, muzzle_Vibrato, 1, false));
+    }
+
+    public float power = -3;
+    public Vector3 Cam_Strength = Vector3.one;
+    private Sequence _CamSequence;
+    private void CamTween()
+    {
+        _CamSequence = DOTween.Sequence()
+            .Append(_virCam.transform.DOLocalRotate(new Vector3(power, 0, 0), DG_Duration, RotateMode.Fast))
+            .Join(_virCam.transform.DOShakePosition(DG_ShakePositionDuration, Cam_Strength, DG_Vibrato, 1, false))
+            .OnComplete(() =>
+            {
+                _virCam.transform.DOLocalRotate(new Vector3(0, 0, 0), DG_Duration, RotateMode.Fast);
+            });
+    }
 
     [Header("Gun Settings")] 
-    public float DG_Duration = 0.5f;
+    public float DG_Duration = 0.3f;
+    public float endDuration = 0.5f;
+
+    public float duration = 0.1f;
+    
+    public float DG_ShakePositionDuration = 0.5f;
+    public float gun_power = -5;
+    public Vector3 DG_Strength = Vector3.one;
     public int DG_Vibrato = 10;
+    public float recoPower = 0.38f;
+
+    private Sequence _gunSequence;
 
     private void Recoil()
     {
-        _gun.transform.DOShakeRotation(DG_Duration, new Vector3(-7, 0, 0), DG_Vibrato, 0f, false);
+        //! 주석 알잘딱
+        _gunSequence = DOTween.Sequence()
+            .Append(_gun.DOLocalRotate(new Vector3(gun_power, 0, 0), DG_Duration, RotateMode.Fast).SetEase(Ease.Linear))
+            .Join(_gun.DOLocalMoveZ(recoPower, duration, false).SetEase(Ease.InOutQuad))
+            .Append(_gun.DOLocalMoveZ(0, duration, false).SetEase(Ease.InOutQuad))
+            //.Join(_gun.DOShakePosition(DG_ShakePositionDuration, DG_Strength, DG_Vibrato, 0.3f, false))
+            //.Append(_gun.DOLocalMoveZ(recoPower, 0.2f, true).SetEase(Ease.Linear))
+            .OnComplete(() =>
+            {
+                _gun.DOLocalRotate(new Vector3(0, 0, 0), endDuration, RotateMode.Fast);
+            });
     }
 
     private void PerlinCam(int amplitude = 0, int frequency = 0)
@@ -99,18 +147,29 @@ public class Weapon : MonoBehaviour
 
     private void CreateBullet()
     {
-        //? 이거 뭔가 꺼림직해 너무 불편해 코드 재활용 해야 돼
+        //? 이거 뭔가 꺼림직해 너무 불편해 코드 재활용 해야 돼 
+        //! 아니 3번은 개 에반데
         Bullet bulletObj = PoolManager.Instance.Pop(PoolingType.Bullet) as Bullet;
-        if (bulletObj != null) PosToTarget(bulletObj.transform, _muzzle);
+        if (bulletObj != null) TargetToPos(bulletObj.transform, _muzzle);
 
         CasingBullet casingObj = PoolManager.Instance.Pop(PoolingType.CasingBullet) as CasingBullet;
-        if (casingObj != null) PosToTarget(casingObj.transform, _casingTrm);
+        if (casingObj != null) TargetToPos(casingObj.transform, _casingTrm);
+        
+        MuzzleFlame flameObj = PoolManager.Instance.Pop(PoolingType.MuzzleFlame) as MuzzleFlame;
+        if (flameObj != null) TargetToPos(flameObj.transform, _flameMuzzle);
+    }
+    
+    //! 이거 선배한테 물어보자
+    private void PoolObjTargetToPos <T>(T type, PoolingType poolType, Transform target) where T : class
+    {
+        T obj = PoolManager.Instance.Pop(poolType) as T;
+        if (obj != null) TargetToPos(obj as Transform, target);
     }
 
-    private void PosToTarget(Transform target, Transform pos)
+    private void TargetToPos(Transform pos, Transform target)
     {
-        target.position = pos.position;
-        target.rotation = pos.rotation;
+        pos.position = target.position;
+        pos.rotation = target.rotation;
     }
 
     #if UNITY_EDITOR

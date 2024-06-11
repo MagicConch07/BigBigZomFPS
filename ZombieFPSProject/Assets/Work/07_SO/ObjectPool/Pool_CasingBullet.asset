@@ -15,5 +15,5 @@ MonoBehaviour:
   enumName: CasingBullet
   poolingName: CasingBullet
   description: Temporary Bullet Effect
-  poolCount: 90
+  poolCount: 70
   prefab: {fileID: -6352122907874798615, guid: eea9bcfc1d8a5b94d8df676b0c7d8ca9, type: 3}
