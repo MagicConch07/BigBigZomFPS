@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody _myrigid;
     private bool _isCursor = false;
     
-    public float speed = 15f;
+    public float speed = 12f;
     
     [SerializeField] private float _jumpPower = 5f;
     [SerializeField] private float _rayDistance = 1.2f;
@@ -22,28 +22,28 @@ public class PlayerMovement : MonoBehaviour
         _myrigid = GetComponent<Rigidbody>();
         _inputAction = _inputReader.FPSInputInstance.Player;
 
-        _inputReader.SettingsEvent += SettingsHandle;
-        _inputReader.SprintEvent += SprintHandle;
-        _inputReader.SitEvent += SitHandle;
-        _inputReader.JumpEvent += JumpHandle;
+        _inputReader.OnSettingsEvent += OnSettingsHandle;
+        _inputReader.OnSprintEvent += OnSprintHandle;
+        _inputReader.OnSitEvent += OnSitHandle;
+        _inputReader.OnJumpEvent += OnJumpHandle;
     }
 
     void OnDisable()
     {
-        _inputReader.SettingsEvent -= SettingsHandle;
-        _inputReader.SprintEvent -= SprintHandle;
-        _inputReader.SitEvent -= SitHandle;
-        _inputReader.JumpEvent -= JumpHandle;
+        _inputReader.OnSettingsEvent -= OnSettingsHandle;
+        _inputReader.OnSprintEvent -= OnSprintHandle;
+        _inputReader.OnSitEvent -= OnSitHandle;
+        _inputReader.OnJumpEvent -= OnJumpHandle;
     }
 
     //TODO : 이거 세팅을 따로 클래스로 뽑아내서 만들어야 함
     //! 일단 여기다가 플레이어 움직임이 아닌 세팅도 넣겠음
-    private void SettingsHandle(bool isPress)
+    private void OnSettingsHandle(bool isPress)
     {
         _isCursor = !isPress;
     }
 
-    private void SprintHandle(bool isPress)
+    private void OnSprintHandle(bool isPress)
     {
         if (isPress == false)
         {
@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         _virtualCam.transform.localPosition = new Vector3(_virtualCam.transform.localPosition.x, -_virtualCam.transform.localPosition.y, _virtualCam.transform.localPosition.z);
     }
 
-    private void SitHandle(bool isPress)
+    private void OnSitHandle(bool isPress)
     {
         if (isPress == false)
         {
@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         _virtualCam.transform.localPosition = new Vector3(_virtualCam.transform.localPosition.x, 1f, _virtualCam.transform.localPosition.z);
     }
 
-    private void JumpHandle(bool isPress)
+    private void OnJumpHandle(bool isPress)
     {
         if (isPress == false) return;
 

@@ -29,7 +29,9 @@ public class Weapon : MonoBehaviour
     public float gunTweenBackDuration = 0.1f;
     public float gun_power = -5;
     public float recoilPosPower = -0.07f;
+    
     private Sequence _gunSequence;
+    private bool isRecoilTween = false;
     
     [Header("Muzzle Tween")]
     public Vector3 muzzle_Str;
@@ -41,11 +43,14 @@ public class Weapon : MonoBehaviour
     private float _firerateFloat;
     private float _reloadFloat;
     private bool _isAttack = false;
+    private bool _isFire = false;
     private bool _isReload = false;
     private Ray _gunRay;
+    
     #endregion
     
     #region Camera Valuse
+    
     [Header("Cam Settings")]
     [SerializeField] private CinemachineVirtualCamera _virCam;
     private CinemachineBasicMultiChannelPerlin _perlin;
@@ -61,14 +66,23 @@ public class Weapon : MonoBehaviour
     #endregion
 
     #region  Event
-    public event Action OnFireFlame; 
-
+    
+    public event Action OnFireFlame;
+    
     #endregion
+    
     public void InitCaster(Agent agent)
     {
         _owner = agent;
     }
-    
+
+    private void OnEnable()
+    {
+        // Handle
+        _inputReader.OnReloadEvent += HandleReload;
+        _inputReader.OnFireEvent += HandleFire;
+    }
+
     void Awake()
     {
         _perlin = _virCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
@@ -80,16 +94,30 @@ public class Weapon : MonoBehaviour
     void Update()
     {
         _gunRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
-        // Todo : ChangeInput System
-        if (Input.GetKey(KeyCode.Mouse0) && _isAttack == false && _currentMagazine > 0)
-        {
-            StartCoroutine(Shoot());
-        }
+        Attack();
+    }
 
-        if (Input.GetKeyDown(KeyCode.R) && _isReload == false)
-        {
-            StartCoroutine(Reload());
-        }
+    private void OnDisable()
+    {
+        _inputReader.OnReloadEvent -= HandleReload;
+    }
+
+    private void HandleFire(bool isPress)
+    {
+        _isAttack = isPress;
+    }
+
+    private void Attack()
+    {
+        if (_isAttack == false || _isFire || _currentMagazine <= 0) return;
+        
+        StartCoroutine(Shoot());
+    }
+
+    private void HandleReload()
+    {
+        // TODO : Create Reload Animation
+        StartCoroutine(Reload());
     }
 
     private IEnumerator Reload()
@@ -103,6 +131,7 @@ public class Weapon : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator Shoot()
     {
+        _isFire = true;
         _currentMagazine--;
         
         RaycastHit[] hitInfo = new RaycastHit[3];
@@ -118,22 +147,14 @@ public class Weapon : MonoBehaviour
                 health.ApplyDamage(damage, hitInfo[0].point, hitInfo[0].normal, _stat.knockBackPower.GetValue(), _owner, DamageType.Range);
             }
         }
-        _isAttack = true;
-
-        //! Cam 
-        //PerlinCam(1, 1);
+        
         //CamTween();
         Recoil();
         MuzzleTween();
-        
         CreateBullet();
 
         yield return new WaitForSeconds(_firerateFloat);
-
-        //! Cam
-        //PerlinCam();
-        
-        _isAttack = false;
+        _isFire = false;
     }
     
     private void MuzzleTween()
@@ -152,8 +173,7 @@ public class Weapon : MonoBehaviour
                 _virCam.transform.DOLocalRotate(new Vector3(0, 0, 0), camTweenDuration, RotateMode.Fast);
             });
     }
-
-    private bool isRecoilTween = false;
+    
     private void Recoil()
     {
         //! 일단 버리고 나중에 하자 지금 시간도 없고 이런 것에 집중하지마 할 수 있다.

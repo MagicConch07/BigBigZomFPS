@@ -13,11 +13,12 @@ public class InputReader : ScriptableObject, FPSInput.IPlayerActions, FPSInput.I
     public FPSInput.PlayerActions PlayerActionsInstance;
 
     //* UI Zone
-    public event Action<bool> SettingsEvent;
-    public event Action<bool> SprintEvent;
-    public event Action<bool> SitEvent;
-    public event Action<bool> JumpEvent;
-    public event Action FireEvent;
+    public event Action<bool> OnSettingsEvent;
+    public event Action<bool> OnSprintEvent;
+    public event Action<bool> OnSitEvent;
+    public event Action<bool> OnJumpEvent;
+    public event Action OnReloadEvent;
+    public event Action<bool> OnFireEvent;
 
     private void OnEnable()
     {
@@ -35,18 +36,27 @@ public class InputReader : ScriptableObject, FPSInput.IPlayerActions, FPSInput.I
 
     public void OnFire(InputAction.CallbackContext context)
     {
+        if (context.started)
+            OnFireEvent?.Invoke(true);
+        if (context.canceled)
+            OnFireEvent?.Invoke(false);
+    }
 
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            OnReloadEvent?.Invoke();
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            JumpEvent?.Invoke(true);
+            OnJumpEvent?.Invoke(true);
         }
         else
         {
-            JumpEvent?.Invoke(false);
+            OnJumpEvent?.Invoke(false);
         }
     }
 
@@ -65,11 +75,11 @@ public class InputReader : ScriptableObject, FPSInput.IPlayerActions, FPSInput.I
         //! Hold로 할꺼면 이렇게 구현하면 안됨
         if (context.started || context.performed)
         {
-            SitEvent?.Invoke(true);
+            OnSitEvent?.Invoke(true);
         }
         else
         {
-            SitEvent?.Invoke(false);
+            OnSitEvent?.Invoke(false);
         }
     }
 
@@ -79,11 +89,11 @@ public class InputReader : ScriptableObject, FPSInput.IPlayerActions, FPSInput.I
 
         if (context.started || context.performed)
         {
-            SprintEvent?.Invoke(true);
+            OnSprintEvent?.Invoke(true);
         }
         else
         {
-            SprintEvent?.Invoke(false);
+            OnSprintEvent?.Invoke(false);
         }
     }
 
@@ -97,12 +107,12 @@ public class InputReader : ScriptableObject, FPSInput.IPlayerActions, FPSInput.I
             if (_isSettings == false)
             {
                 _isSettings = true;
-                SettingsEvent?.Invoke(_isSettings);
+                OnSettingsEvent?.Invoke(_isSettings);
             }
             else
             {
                 _isSettings = false;
-                SettingsEvent?.Invoke(_isSettings);
+                OnSettingsEvent?.Invoke(_isSettings);
             }
         }
     }
