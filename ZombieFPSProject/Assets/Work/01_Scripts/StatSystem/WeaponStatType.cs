@@ -1,8 +1,9 @@
 public enum WeaponStatType
 {
-    Magazine,
+    MaxMagazine,
     BulletSpeed,
     Firerate,
     KnockBackPower,
     Range,
+    Reloading,
 }

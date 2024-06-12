@@ -20,7 +20,6 @@ public class Health : MonoBehaviour, IDamageable
         _currentHealth = _owner.Stat.maxHealth.GetValue(); //최대체력으로 셋팅
     }
 
-
     public void ApplyDamage(int damage, Vector3 hitPoint, Vector3 normal, float knockbackPower, Agent dealer, DamageType damageType)
     {
         if (_owner.isDead) return;
@@ -49,6 +48,7 @@ public class Health : MonoBehaviour, IDamageable
         actionData.isCritical = dealer.Stat.IsCritical(ref damage);
         damage = _owner.Stat.ArmoredDamage(damage); //아머수치 적용해서 데미지 계산
 
+        //! error : One or more types required to compile a dynamic expression cannot be found. Are you missing references to Microsoft.CSharp.dll and System.Core.dll?
         _currentHealth = Mathf.Clamp(
                 _currentHealth - damage, 0, _owner.Stat.maxHealth.GetValue());
         OnHitEvent?.Invoke();

@@ -12,15 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e06a133d0da82884eae46bae5718c3b3, type: 3}
   m_Name: AKM
   m_EditorClassIdentifier: 
-  magazine:
-    _baseValue: 0
-    modifiers: 
-    isPercent: 0
-  bulletSpeed:
-    _baseValue: 0
+  maxMagazine:
+    _baseValue: 30
     modifiers: 
     isPercent: 0
   firerate:
-    _baseValue: 0
+    _baseValue: 12
+    modifiers: 
+    isPercent: 0
+  range:
+    _baseValue: 50
+    modifiers: 
+    isPercent: 0
+  bulletSpeed:
+    _baseValue: 300
+    modifiers: 
+    isPercent: 0
+  knockBackPower:
+    _baseValue: 1
+    modifiers: 
+    isPercent: 0
+  reloading:
+    _baseValue: 50
     modifiers: 
     isPercent: 0

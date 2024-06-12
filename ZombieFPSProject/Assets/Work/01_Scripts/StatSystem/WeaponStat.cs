@@ -3,15 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = "SO/WeaponStat")]
 public class WeaponStat : ScriptableObject
 {
-    public Stat magazine;
+    [FormerlySerializedAs("magazine")] public Stat maxMagazine;
     public Stat firerate;
     public Stat range;
     public Stat bulletSpeed;
     public Stat knockBackPower;
+    public Stat reloading;
     
     protected Weapon _owner;
     protected Dictionary<WeaponStatType, Stat> _statDictionary;
@@ -43,7 +45,6 @@ public class WeaponStat : ScriptableObject
         {
             try
             {
-                Debug.Log(typeEnum.ToString());
                 string fieldName = LowerFirstChar(typeEnum.ToString());
                 FieldInfo statField = agentStatType.GetField(fieldName);
                 _statDictionary.Add(typeEnum, statField.GetValue(this) as Stat);

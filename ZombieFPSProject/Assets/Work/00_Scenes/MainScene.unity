@@ -3332,6 +3332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bf5e2f4392fdb4faced5c658c4be9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stat: {fileID: 11400000, guid: 8f39e1dcff77de14fbf9ea563e19c2c4, type: 2}
   _inputReader: {fileID: 11400000, guid: 783311ebbca53f14c8b494d0b7de227a, type: 2}
   _gun: {fileID: 826102672}
   _enemyLayer:
@@ -3339,9 +3340,6 @@ MonoBehaviour:
     m_Bits: 256
   _muzzle: {fileID: 2020245928}
   _casingTrm: {fileID: 1616807484}
-  _knockbackPower: 1
-  rayDistance: 10
-  _fireRate: 0.12
   gunRotationDuration: 0.12
   endDuration: 0.1
   gunTweenBackDuration: 0.1

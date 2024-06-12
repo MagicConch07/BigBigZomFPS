@@ -36,8 +36,12 @@ public class Weapon : MonoBehaviour
     public int muzzle_Vibrato;
     public float muzzle_duration;
     private Sequence _muzzleSequence;
-    
+
+    private int _currentMagazine;
+    private float _firerateFloat;
+    private float _reloadFloat;
     private bool _isAttack = false;
+    private bool _isReload = false;
     private Ray _gunRay;
     #endregion
     
@@ -68,21 +72,39 @@ public class Weapon : MonoBehaviour
     void Awake()
     {
         _perlin = _virCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        _firerateFloat = _stat.firerate.GetValue() * 0.01f;
+        _reloadFloat = _stat.reloading.GetValue() * 0.01f;
+        _currentMagazine = _stat.maxMagazine.GetValue();
     }
 
     void Update()
     {
         _gunRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
         // Todo : ChangeInput System
-        if (Input.GetKey(KeyCode.Mouse0) && _isAttack == false)
+        if (Input.GetKey(KeyCode.Mouse0) && _isAttack == false && _currentMagazine > 0)
         {
             StartCoroutine(Shoot());
         }
+
+        if (Input.GetKeyDown(KeyCode.R) && _isReload == false)
+        {
+            StartCoroutine(Reload());
+        }
+    }
+
+    private IEnumerator Reload()
+    {
+        _isReload = true;
+        yield return new WaitForSeconds(_reloadFloat);
+        _currentMagazine = _stat.maxMagazine.GetValue();
+        _isReload = false;
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator Shoot()
     {
+        _currentMagazine--;
+        
         RaycastHit[] hitInfo = new RaycastHit[3];
         int hit = Physics.RaycastNonAlloc(_gunRay, hitInfo, _stat.range.GetValue(), _enemyLayer);
         if (hit >= 1)
@@ -105,8 +127,8 @@ public class Weapon : MonoBehaviour
         MuzzleTween();
         
         CreateBullet();
-        
-        yield return new WaitForSeconds(_stat.firerate.GetValue());
+
+        yield return new WaitForSeconds(_firerateFloat);
 
         //! Cam
         //PerlinCam();
