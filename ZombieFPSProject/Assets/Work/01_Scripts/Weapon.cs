@@ -22,6 +22,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private LayerMask _enemyLayer;
     [SerializeField] private Transform _muzzle;
     [SerializeField] private Transform _casingTrm;
+    [SerializeField] private MuzzleFlame _muzzleFlame;
     
     [Header("Gun Tween")] 
     public float gunRotationDuration = 0.12f;
@@ -89,6 +90,7 @@ public class Weapon : MonoBehaviour
         _firerateFloat = _stat.firerate.GetValue() * 0.01f;
         _reloadFloat = _stat.reloading.GetValue() * 0.01f;
         _currentMagazine = _stat.maxMagazine.GetValue();
+        _muzzleFlame.gameObject.SetActive(false);
     }
 
     void Update()
@@ -133,6 +135,9 @@ public class Weapon : MonoBehaviour
     {
         _isFire = true;
         _currentMagazine--;
+
+        _muzzleFlame.gameObject.SetActive(true);
+        _muzzleFlame.PlayParticle();
         
         RaycastHit[] hitInfo = new RaycastHit[3];
         int hit = Physics.RaycastNonAlloc(_gunRay, hitInfo, _stat.range.GetValue(), _enemyLayer);
@@ -154,6 +159,7 @@ public class Weapon : MonoBehaviour
         CreateBullet();
 
         yield return new WaitForSeconds(_firerateFloat);
+        _muzzleFlame.gameObject.SetActive(false);
         _isFire = false;
     }
     

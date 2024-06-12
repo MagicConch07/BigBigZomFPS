@@ -1,34 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ObjectPooling;
 using UnityEngine;
 
-public class MuzzleFlame : PoolableMono
+public class MuzzleFlame : MonoBehaviour
 {
-    [SerializeField] [Range(0.05f, 1f)] private float _disableParticleTime = 0.12f;
-    private ParticleSystem _particle;
-    
-    private void Awake()
-    {
-        _particle = GetComponent<ParticleSystem>();
-    }
+    [SerializeField] private ParticleSystem[] _particles;
 
-    private void OnEnable()
+    public void PlayParticle()
     {
-        _particle.Play();
-        StartCoroutine(DisableParticle());
-    }
-
-    private IEnumerator DisableParticle()
-    {
-        yield return new WaitForSeconds(_disableParticleTime);
-        _particle.Stop();
-        gameObject.SetActive(false);
-        PoolManager.Instance.Push(this);
-    }
-
-    public override void ResetItem()
-    {
-        gameObject.SetActive(true);
+        foreach (ParticleSystem par in _particles)
+        {
+            par.time = 0;
+            par.Play();
+        }
     }
 }

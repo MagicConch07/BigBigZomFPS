@@ -76,9 +76,8 @@ public class PlayerMovement : MonoBehaviour
         _virtualCam.transform.localPosition = new Vector3(_virtualCam.transform.localPosition.x, 1f, _virtualCam.transform.localPosition.z);
     }
 
-    private void OnJumpHandle(bool isPress)
+    private void OnJumpHandle()
     {
-        if (isPress == false) return;
 
         RaycastHit[] hits = new RaycastHit[1];
         Physics.RaycastNonAlloc(transform.position, Vector3.down, hits, _rayDistance, _groundLayer);

@@ -16,7 +16,7 @@ public class InputReader : ScriptableObject, FPSInput.IPlayerActions, FPSInput.I
     public event Action<bool> OnSettingsEvent;
     public event Action<bool> OnSprintEvent;
     public event Action<bool> OnSitEvent;
-    public event Action<bool> OnJumpEvent;
+    public event Action OnJumpEvent;
     public event Action OnReloadEvent;
     public event Action<bool> OnFireEvent;
 
@@ -51,13 +51,7 @@ public class InputReader : ScriptableObject, FPSInput.IPlayerActions, FPSInput.I
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.started)
-        {
-            OnJumpEvent?.Invoke(true);
-        }
-        else
-        {
-            OnJumpEvent?.Invoke(false);
-        }
+            OnJumpEvent?.Invoke();
     }
 
     public void OnMouseView(InputAction.CallbackContext context)

@@ -17,9 +17,11 @@ public class AgentMovement : MonoBehaviour, IMovement
     #region 속도 관련 로직
 
     public float moveSpeed = 10f;
+    public float jumpPower = 5f;
     private Vector3 _velocity;
     public Vector3 Velocity => _velocity;
     public bool IsGround { get; private set; }
+    public float groundRayDistance = 1.3f;
 
     private Vector2 _movementInput;
     #endregion
@@ -32,6 +34,32 @@ public class AgentMovement : MonoBehaviour, IMovement
         _myRigidbody = GetComponent<Rigidbody>();
         _agent = agent;
     }
+
+    private void OnEnable()
+    {
+        _inputReader.OnJumpEvent += HandleJump;
+        _inputReader.OnSprintEvent += HandleSprint;
+    }
+
+    private void OnDisable()
+    {
+        _inputReader.OnJumpEvent -= HandleJump;
+        _inputReader.OnSprintEvent -= HandleSprint;
+    }
+    
+    private void HandleSprint(bool obj)
+    {
+        print("아니 이게 뭐야?");
+    }
+
+    private void HandleJump()
+    {
+        if (IsGround)
+        {
+            _myRigidbody.velocity = new Vector3(_myRigidbody.velocity.x, jumpPower, _myRigidbody.velocity.z);
+        }
+    }
+
 
     private void Update()
     { 
@@ -56,7 +84,7 @@ public class AgentMovement : MonoBehaviour, IMovement
 
     private bool GroundCheck()
     {
-        return Physics.Raycast(transform.position, Vector3.down, _groundRayDistance, _groundLayer);
+        return Physics.Raycast(transform.position, Vector3.down * groundRayDistance, _groundRayDistance, _groundLayer);
     }
     
     public void StopImmediately()
