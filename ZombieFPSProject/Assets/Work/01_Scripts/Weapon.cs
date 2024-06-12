@@ -133,16 +133,24 @@ public class Weapon : MonoBehaviour
                 _virCam.transform.DOLocalRotate(new Vector3(0, 0, 0), camTweenDuration, RotateMode.Fast);
             });
     }
-    
+
+    private bool isRecoilTween = false;
     private void Recoil()
     {
+        //! 일단 버리고 나중에 하자 지금 시간도 없고 이런 것에 집중하지마 할 수 있다.
+        // 아 이거 뭔가 이상해s
+        if (isRecoilTween) return;
+        isRecoilTween = true;
+        
         _gunSequence = DOTween.Sequence()
             .Append(_gun.DOLocalRotate(new Vector3(gun_power, 0, 0), gunRotationDuration).SetEase(Ease.Linear))
             .Join(_gun.DOLocalMoveZ(recoilPosPower, gunTweenBackDuration).SetEase(Ease.InOutQuad))
-            .Append(_gun.DOLocalMoveZ(0, gunTweenBackDuration).SetEase(Ease.InOutQuad))
+            //Append(_gun.DOLocalMoveZ(0, gunTweenBackDuration).SetEase(Ease.InOutQuad))
             .OnComplete(() =>
             {
+                _gun.DOLocalMoveZ(0, gunTweenBackDuration).SetEase(Ease.InOutQuad);
                 _gun.DOLocalRotate(new Vector3(0, 0, 0), endDuration);
+                isRecoilTween = false;
             });
     }
 
