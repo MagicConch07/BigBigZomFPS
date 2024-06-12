@@ -14,7 +14,7 @@ public class InputReader : ScriptableObject, FPSInput.IPlayerActions, FPSInput.I
 
     //* UI Zone
     public event Action<bool> OnSettingsEvent;
-    public event Action<bool> OnSprintEvent;
+    public event Action <bool>OnSprintEvent;
     public event Action<bool> OnSitEvent;
     public event Action OnJumpEvent;
     public event Action OnReloadEvent;
@@ -66,29 +66,21 @@ public class InputReader : ScriptableObject, FPSInput.IPlayerActions, FPSInput.I
 
     public void OnSit(InputAction.CallbackContext context)
     {
-        //! Hold로 할꺼면 이렇게 구현하면 안됨
-        if (context.started || context.performed)
-        {
+        //! 이거는 카메라쪽에서 건드리자
+        if (context.started)
             OnSitEvent?.Invoke(true);
-        }
-        else
-        {
+        if (context.canceled)
             OnSitEvent?.Invoke(false);
-        }
     }
 
     public void OnSprint(InputAction.CallbackContext context)
     {
         //TODO : 애니메이션이나 카메라 흔들림 추가해야함
 
-        if (context.started || context.performed)
-        {
+        if (context.started)
             OnSprintEvent?.Invoke(true);
-        }
-        else
-        {
+        if (context.canceled)
             OnSprintEvent?.Invoke(false);
-        }
     }
 
     private bool _isSettings = false;

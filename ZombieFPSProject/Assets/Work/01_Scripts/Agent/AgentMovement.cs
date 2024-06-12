@@ -17,12 +17,14 @@ public class AgentMovement : MonoBehaviour, IMovement
     #region 속도 관련 로직
 
     public float moveSpeed = 10f;
+    public float sprintSpeed = 12f;
     public float jumpPower = 5f;
     private Vector3 _velocity;
     public Vector3 Velocity => _velocity;
     public bool IsGround { get; private set; }
     public float groundRayDistance = 1.3f;
 
+    private float originSpeed;
     private Vector2 _movementInput;
     #endregion
 
@@ -33,6 +35,7 @@ public class AgentMovement : MonoBehaviour, IMovement
         //_inputReader = 
         _myRigidbody = GetComponent<Rigidbody>();
         _agent = agent;
+        originSpeed = moveSpeed;
     }
 
     private void OnEnable()
@@ -47,9 +50,13 @@ public class AgentMovement : MonoBehaviour, IMovement
         _inputReader.OnSprintEvent -= HandleSprint;
     }
     
-    private void HandleSprint(bool obj)
+    private void HandleSprint(bool isPress)
     {
-        print("아니 이게 뭐야?");
+        // TODO : 애니메이션이나 카메라 흔들림 추가 하십쇼
+        if (isPress)
+            moveSpeed = sprintSpeed;
+        else
+            moveSpeed = originSpeed;
     }
 
     private void HandleJump()
