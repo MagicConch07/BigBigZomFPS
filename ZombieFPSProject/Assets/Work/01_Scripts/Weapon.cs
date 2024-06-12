@@ -10,6 +10,7 @@ public class Weapon : MonoBehaviour
     #region Player Valuse
     
     private Agent _owner;
+    [field: SerializeField] public WeaponStat _stat;
     [SerializeField] private InputReader _inputReader;
     
     #endregion
@@ -21,10 +22,6 @@ public class Weapon : MonoBehaviour
     [SerializeField] private LayerMask _enemyLayer;
     [SerializeField] private Transform _muzzle;
     [SerializeField] private Transform _casingTrm;
-    [SerializeField] private float _knockbackPower = 1f;
-    // todo : 이거는 플레이어 스탯으로 빼자
-    public float rayDistance = 50f;
-    public float _fireRate = 0.12f;
     
     [Header("Gun Tween")] 
     public float gunRotationDuration = 0.12f;
@@ -41,6 +38,7 @@ public class Weapon : MonoBehaviour
     private Sequence _muzzleSequence;
     
     private bool _isAttack = false;
+    private Ray _gunRay;
     #endregion
     
     #region Camera Valuse
@@ -56,7 +54,6 @@ public class Weapon : MonoBehaviour
     public Vector3 Cam_Strength = Vector3.one;
     private Sequence _CamSequence;
     
-    private Ray _camRay;
     #endregion
 
     #region  Event
@@ -75,7 +72,7 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        _camRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
+        _gunRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
         // Todo : ChangeInput System
         if (Input.GetKey(KeyCode.Mouse0) && _isAttack == false)
         {
@@ -87,7 +84,7 @@ public class Weapon : MonoBehaviour
     private IEnumerator Shoot()
     {
         RaycastHit[] hitInfo = new RaycastHit[3];
-        int hit = Physics.RaycastNonAlloc(_camRay, hitInfo, rayDistance, _enemyLayer);
+        int hit = Physics.RaycastNonAlloc(_gunRay, hitInfo, _stat.range.GetValue(), _enemyLayer);
         if (hit >= 1)
         {
             ZombieHit zombieHit = PoolManager.Instance.Pop(PoolingType.ZombieHit) as ZombieHit;
@@ -96,7 +93,7 @@ public class Weapon : MonoBehaviour
             if(hitInfo[0].collider.TryGetComponent<IDamageable>(out IDamageable health))
             {
                 int damage = _owner.Stat.GetDamage(); // Onwer Damage
-                health.ApplyDamage(damage, hitInfo[0].point, hitInfo[0].normal, _knockbackPower, _owner, DamageType.Range);
+                health.ApplyDamage(damage, hitInfo[0].point, hitInfo[0].normal, _stat.knockBackPower.GetValue(), _owner, DamageType.Range);
             }
         }
         _isAttack = true;
@@ -109,7 +106,7 @@ public class Weapon : MonoBehaviour
         
         CreateBullet();
         
-        yield return new WaitForSeconds(_fireRate);
+        yield return new WaitForSeconds(_stat.firerate.GetValue());
 
         //! Cam
         //PerlinCam();
@@ -183,7 +180,7 @@ public class Weapon : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(_camRay.origin, _camRay.direction * rayDistance);
+        Gizmos.DrawRay(_gunRay.origin, _gunRay.direction * _stat.range.GetValue());
     }
     #endif
 }

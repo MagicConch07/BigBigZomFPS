@@ -8,8 +8,10 @@ using UnityEngine;
 public class WeaponStat : ScriptableObject
 {
     public Stat magazine;
-    public Stat bulletSpeed;
     public Stat firerate;
+    public Stat range;
+    public Stat bulletSpeed;
+    public Stat knockBackPower;
     
     protected Weapon _owner;
     protected Dictionary<WeaponStatType, Stat> _statDictionary;
@@ -35,12 +37,13 @@ public class WeaponStat : ScriptableObject
     {
         _statDictionary = new Dictionary<WeaponStatType, Stat>();
 
-        Type agentStatType = typeof(AgentStat);
+        Type agentStatType = typeof(WeaponStat);
 
         foreach(WeaponStatType typeEnum in Enum.GetValues(typeof(WeaponStatType)))
         {
             try
             {
+                Debug.Log(typeEnum.ToString());
                 string fieldName = LowerFirstChar(typeEnum.ToString());
                 FieldInfo statField = agentStatType.GetField(fieldName);
                 _statDictionary.Add(typeEnum, statField.GetValue(this) as Stat);
