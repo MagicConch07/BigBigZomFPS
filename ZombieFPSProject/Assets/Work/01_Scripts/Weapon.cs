@@ -69,6 +69,8 @@ public class Weapon : MonoBehaviour
     #region  Event
     
     public event Action OnFireFlame;
+    public event Action OnFireEvent;
+    public event Action OnReloadingEvent;
     
     #endregion
     
