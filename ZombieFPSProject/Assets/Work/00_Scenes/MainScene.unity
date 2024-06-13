@@ -874,6 +874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3129da6f24eaa7409998600ffc0ed6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healPower: 25
 --- !u!137 &679417568 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6191148046445867625, guid: dc784f1e2c6f6d54b8293b4c211c2905, type: 3}
@@ -4510,7 +4511,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 602164379}
         m_TargetAssemblyTypeName: HpBar, Assembly-CSharp
         m_MethodName: DamageHpBar
         m_Mode: 1

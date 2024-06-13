@@ -11,6 +11,9 @@ public class HpBar : MonoBehaviour
     private int _currentHp;
     private int _damagePower = 10;
     public int DamagePower { get => _damagePower; set => _damagePower = value; }
+
+    public int healPower = 25;
+    
     private void Awake()
     {
         _currentHp = MAX_HP;
@@ -25,11 +28,19 @@ public class HpBar : MonoBehaviour
             print("Damage");
             DamageHpBar();
         }
+        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            print("Heal");
+            HealHpBar();
+        }
     }
 
     public void HealHpBar()
     {
-        
+        _currentHp += healPower;
+        if (_currentHp >= MAX_HP) _currentHp = MAX_HP;
+        _microBar.UpdateBar(_currentHp, false, UpdateAnim.Heal);
     }
 
     public void DamageHpBar()
