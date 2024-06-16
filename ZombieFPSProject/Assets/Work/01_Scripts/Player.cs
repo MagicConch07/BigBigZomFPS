@@ -39,9 +39,10 @@ namespace Work._01_Scripts
             //! 이거 진짜 분리 해야 해
         }
 
-        public void TestHit()
+        public void TestHit()   
         {
-            print(HealthCompo.CurrentHealth);
+            //! 나중에 처리
+            //print(HealthCompo.CurrentHealth);
         }
 
         public override void SetDead()
