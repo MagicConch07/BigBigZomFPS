@@ -128,6 +128,7 @@ public class Weapon : MonoBehaviour
     {
         _isReload = true;
         yield return new WaitForSeconds(_reloadFloat);
+        OnReloadingEvent?.Invoke();
         _currentMagazine = _stat.maxMagazine.GetValue();
         _isReload = false;
     }
@@ -138,6 +139,7 @@ public class Weapon : MonoBehaviour
         _isFire = true;
         _currentMagazine--;
 
+        OnFireEvent?.Invoke();
         _muzzleFlame.gameObject.SetActive(true);
         _muzzleFlame.PlayParticle();
         

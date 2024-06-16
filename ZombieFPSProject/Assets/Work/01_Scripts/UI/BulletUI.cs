@@ -2,20 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BulletUI : MonoBehaviour
 {
+    private const int MAX_BULLET = 30;
     [SerializeField] private Weapon _weapon;
-    private List<GameObject> _bulletList;
-    private int _currentBulletCount = 30;
+    private List<Image> _bulletList = new List<Image>();
+    private int _currentBulletCount = MAX_BULLET;
     private void Awake()
     {
-        RectTransform[] bullets = GetComponentsInChildren<RectTransform>();
-        print(bullets.Length);
-
-        for (int i = bullets.Length; i > 0; --i)
+        Image[] bullets = GetComponentsInChildren<Image>();
+        for (int i = 0; i < bullets.Length; ++i)
         {
-            _bulletList.Add(bullets[i].gameObject);
+            _bulletList.Add(bullets[i]);
         }
     }
 
@@ -31,19 +31,22 @@ public class BulletUI : MonoBehaviour
         _weapon.OnReloadingEvent -= HandleReloading;
     }
 
-    private void HandleFire()
+    private void HandleFire() 
     {
-        if (_currentBulletCount <= 0) return;
+        if (_currentBulletCount < 0) return;
         
-        
+        _bulletList[_currentBulletCount - 1].enabled = false;
+        _currentBulletCount--;
     }
 
     private void HandleReloading()
     {
-        foreach (GameObject bullet in _bulletList)
+        foreach (Image bullet in _bulletList)
         {
-            bullet.SetActive(true);
+            bullet.enabled = true;
         }
+
+        _currentBulletCount = MAX_BULLET;
     }
 
 }

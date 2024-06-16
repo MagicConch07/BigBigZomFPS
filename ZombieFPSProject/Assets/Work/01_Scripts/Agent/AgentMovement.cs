@@ -64,6 +64,7 @@ public class AgentMovement : MonoBehaviour, IMovement
         if (IsGround)
         {
             _myRigidbody.velocity = new Vector3(_myRigidbody.velocity.x, jumpPower, _myRigidbody.velocity.z);
+            //_myRigidbody.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
         }
     }
 
@@ -71,6 +72,13 @@ public class AgentMovement : MonoBehaviour, IMovement
     private void Update()
     { 
         IsGround = GroundCheck();
+        Gravity();
+    }
+
+    public float gravityPower = 3;
+    private void Gravity()
+    {
+        _myRigidbody.AddForce(new Vector3(0, -9.81f * gravityPower * Time.deltaTime, 0), ForceMode.Impulse);
     }
 
     private void FixedUpdate()
