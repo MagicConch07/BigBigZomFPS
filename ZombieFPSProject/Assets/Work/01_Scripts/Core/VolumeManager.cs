@@ -30,7 +30,7 @@ public class VolumeManager : MonoSingleton<VolumeManager>
 
     private void Update()
     {
-        //! 왜곡 효과 추가하기
+        //! 테스트키 삭제
         if (Input.GetKeyDown(KeyCode.V))
         {
             HitImage();
@@ -39,6 +39,7 @@ public class VolumeManager : MonoSingleton<VolumeManager>
 
     public void HitImage()
     {
+        print("피격s");
         if (_isHit) return;
         StartCoroutine(HitImageCoroutine());
     }

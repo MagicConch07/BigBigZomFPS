@@ -9,6 +9,8 @@ namespace Work._01_Scripts
 
         [SerializeField] private Weapon _weapon;
 
+        public Weapon Weapon { get => _weapon; }
+
         protected override void Awake()
         {
             Transform visualTrm = transform.Find("HeadView/Visual");
