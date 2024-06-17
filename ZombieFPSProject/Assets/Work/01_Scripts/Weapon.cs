@@ -40,6 +40,7 @@ public class Weapon : MonoBehaviour
     public float muzzle_duration;
     private Sequence _muzzleSequence;
 
+    private float _cashKonckPower;
     private int _currentMagazine;
     private float _firerateFloat;
     private float _reloadFloat;
@@ -93,6 +94,7 @@ public class Weapon : MonoBehaviour
         _reloadFloat = _stat.reloading.GetValue() * 0.01f;
         _currentMagazine = _stat.maxMagazine.GetValue();
         _muzzleFlame.gameObject.SetActive(false);
+        _cashKonckPower = _stat.knockBackPower.GetValue() / 10f;
     }
 
     void Update()
@@ -113,8 +115,7 @@ public class Weapon : MonoBehaviour
 
     private void Attack()
     {
-        if (_isAttack == false || _isFire || _currentMagazine <= 0) return;
-        
+        if (_isAttack == false || _isFire || _isReload || _currentMagazine <= 0) return;
         StartCoroutine(Shoot());
     }
 
@@ -153,7 +154,7 @@ public class Weapon : MonoBehaviour
             if(hitInfo[0].collider.TryGetComponent<IDamageable>(out IDamageable health))
             {
                 int damage = _owner.Stat.GetDamage(); // Onwer Damage
-                health.ApplyDamage(damage, hitInfo[0].point, hitInfo[0].normal, _stat.knockBackPower.GetValue(), _owner, DamageType.Range);
+                health.ApplyDamage(damage, hitInfo[0].point, hitInfo[0].normal, _cashKonckPower / 10, _owner, DamageType.Range);
             }
         }
         

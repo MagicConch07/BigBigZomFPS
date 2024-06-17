@@ -29,7 +29,7 @@ MonoBehaviour:
     modifiers: 
     isPercent: 0
   knockBackPower:
-    _baseValue: 1
+    _baseValue: 8
     modifiers: 
     isPercent: 0
   reloading:

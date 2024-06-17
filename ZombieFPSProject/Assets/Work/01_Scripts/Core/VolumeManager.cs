@@ -28,18 +28,8 @@ public class VolumeManager : MonoSingleton<VolumeManager>
         _vignetteOriginIntensity = _vignette.intensity.value;
     }
 
-    private void Update()
-    {
-        //! 테스트키 삭제
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            HitImage();
-        }
-    }
-
     public void HitImage()
     {
-        print("피격s");
         if (_isHit) return;
         StartCoroutine(HitImageCoroutine());
     }
@@ -55,7 +45,6 @@ public class VolumeManager : MonoSingleton<VolumeManager>
         while (currentTime <= 1f)
         {
             currentTime += Time.deltaTime / percent;
-            print(currentTime);
             _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, MAX_INTENSITY, currentTime);
             _lens.intensity.value = Mathf.Lerp(_lens.intensity.value, lensPower, currentTime);
             yield return null;
