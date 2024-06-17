@@ -23,15 +23,14 @@ public class HpBar : MonoBehaviour
 
     private void Update()
     {
+        //! Test Key
         if (Input.GetKeyDown(KeyCode.T))
         {
-            print("Damage");
             DamageHpBar();
         }
         
         if (Input.GetKeyDown(KeyCode.F))
         {
-            print("Heal");
             HealHpBar();
         }
     }
