@@ -12,15 +12,19 @@ public class VolumeManager : MonoSingleton<VolumeManager>
     [SerializeField] private Volume _volume;
     private VolumeProfile _volumeProfile;
     private Vignette _vignette;
+    private LensDistortion _lens;
     private float _vignetteOriginIntensity;
     private bool _isHit = false;
 
     public float hitDuration = 0.3f;
+    public float endDuration = 0.3f;
+    public float lensPower = 0.3f;
 
     private void Awake()
     {
         _volumeProfile = _volume.profile;
         _volumeProfile.TryGet(out _vignette);
+        _volumeProfile.TryGet(out _lens);
         _vignetteOriginIntensity = _vignette.intensity.value;
     }
 
@@ -50,13 +54,22 @@ public class VolumeManager : MonoSingleton<VolumeManager>
         while (currentTime <= 1f)
         {
             currentTime += Time.deltaTime / percent;
-            
+            print(currentTime);
             _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, MAX_INTENSITY, currentTime);
+            _lens.intensity.value = Mathf.Lerp(_lens.intensity.value, lensPower, currentTime);
             yield return null;
         }
 
+        currentTime = 0;
+        percent = endDuration;
         _vignette.color.value = Color.black;
-        _vignette.intensity.value = _vignetteOriginIntensity;
+        while (currentTime <= 1f)
+        {
+            currentTime += Time.deltaTime / percent;
+            _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, _vignetteOriginIntensity, currentTime);
+            _lens.intensity.value = Mathf.Lerp(_lens.intensity.value, 0, currentTime);
+            yield return null;
+        }
         _isHit = false;
     }
 }
