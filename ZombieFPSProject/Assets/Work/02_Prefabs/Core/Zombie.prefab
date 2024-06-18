@@ -125,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Stat>k__BackingField: {fileID: 11400000, guid: 4dc4cade48d7ab049b51a88cffe0a293, type: 2}
   isDead: 0
-  moveSpeed: 7
+  moveSpeed: 9
   battleTime: 0
   isActive: 0
   _whatIsPlayer:
@@ -134,7 +134,7 @@ MonoBehaviour:
   _whatIsObstacle:
     serializedVersion: 2
     m_Bits: 0
-  runAwayDistance: 20
+  runAwayDistance: 70
   attackDistance: 3
   attackCooldown: 0.3
   _maxCheckEnemy: 1

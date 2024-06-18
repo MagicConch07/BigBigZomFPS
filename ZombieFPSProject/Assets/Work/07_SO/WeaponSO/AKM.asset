@@ -17,7 +17,7 @@ MonoBehaviour:
     modifiers: 
     isPercent: 0
   firerate:
-    _baseValue: 12
+    _baseValue: 11
     modifiers: 
     isPercent: 0
   range:

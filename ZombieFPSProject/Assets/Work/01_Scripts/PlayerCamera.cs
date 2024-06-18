@@ -47,6 +47,8 @@ public class PlayerCamera : MonoBehaviour
     
     public void HitPlayer()
     {
+        if (_isHit) return;
+        
         _isHit = true;
         _hitSequence = DOTween.Sequence()
             .Append(_eye.DOShakeRotation(DG_Duration, DG_Strength, DG_Vibrato, 1f, false))

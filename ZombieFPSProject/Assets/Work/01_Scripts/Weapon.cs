@@ -58,9 +58,9 @@ public class Weapon : MonoBehaviour
     private CinemachineBasicMultiChannelPerlin _perlin;
 
     [Header("Cam Tween Settings")] 
-    public float camTweenDuration = 0.05f;
+    //public float camTweenDuration = 0.05f;
     public float DG_ShakePositionDuration = 0.5f;
-    public float power = -3;
+    //public float power = -3;
     public int DG_Vibrato = 10;
     public Vector3 Cam_Strength = Vector3.one;
     private Sequence _CamSequence;
@@ -158,9 +158,9 @@ public class Weapon : MonoBehaviour
             }
         }
         
-        //CamTween();
         Recoil();
         MuzzleTween();
+        CamTween();
         CreateBullet();
 
         yield return new WaitForSeconds(_firerateFloat);
@@ -177,18 +177,20 @@ public class Weapon : MonoBehaviour
     private void CamTween()
     {
         _CamSequence = DOTween.Sequence()
-            .Append(_virCam.transform.DOLocalRotate(new Vector3(power, 0, 0), camTweenDuration, RotateMode.Fast))
-            .Join(_virCam.transform.DOShakePosition(DG_ShakePositionDuration, Cam_Strength, DG_Vibrato, 1, false))
+            //.Append(_virCam.transform.DOLocalRotate(new Vector3(power, 0, 0), //camTweenDuration, RotateMode.Fast))
+            .Append(_virCam.transform.DOShakePosition(DG_ShakePositionDuration, Cam_Strength, DG_Vibrato, 1, false))
             .OnComplete(() =>
             {
-                _virCam.transform.DOLocalRotate(new Vector3(0, 0, 0), camTweenDuration, RotateMode.Fast);
+                _virCam.transform.localRotation = Quaternion.Euler(Vector3.zero);
+                //_virCam.transform.DOLocalRotate(new Vector3(0, 0, 0), camTweenDuration, RotateMode.Fast);
             });
+        _virCam.transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
     
     private void Recoil()
     {
         //! 일단 버리고 나중에 하자 지금 시간도 없고 이런 것에 집중하지마 할 수 있다.
-        // 아 이거 뭔가 이상해s
+        // 아 이거 뭔가 이상해
         if (isRecoilTween) return;
         isRecoilTween = true;
         
