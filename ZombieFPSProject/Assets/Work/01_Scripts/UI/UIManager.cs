@@ -12,22 +12,25 @@ public class UIManager : MonoSingleton<UIManager>
 {
     public Dictionary<WindowEnum, IWindowPanel> panelDictionary;
 
-    [SerializeField] private Transform _canvasTrm;
+    [SerializeField] private GameObject _death;
+    [SerializeField] private GameObject _clear;
+
+    //[SerializeField] private Transform _canvasTrm;
 
     private void Awake()
     {
-        panelDictionary = new Dictionary<WindowEnum, IWindowPanel>();
-        foreach(WindowEnum windowEnum in Enum.GetValues(typeof(WindowEnum)))
+        /* panelDictionary = new Dictionary<WindowEnum, IWindowPanel>();
+        foreach (WindowEnum windowEnum in Enum.GetValues(typeof(WindowEnum)))
         {
             IWindowPanel panel = _canvasTrm
                 .GetComponent($"{windowEnum.ToString()}Panel") as IWindowPanel;
             panelDictionary.Add(windowEnum, panel);
-        }
+        } */
     }
 
     public void Open(WindowEnum target)
     {
-        if(panelDictionary.TryGetValue(target, out IWindowPanel panel))
+        if (panelDictionary.TryGetValue(target, out IWindowPanel panel))
         {
             panel.Open();
         }
@@ -39,5 +42,17 @@ public class UIManager : MonoSingleton<UIManager>
         {
             panel.Close();
         }
+    }
+
+    public void UISelect()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void OutUI()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }
