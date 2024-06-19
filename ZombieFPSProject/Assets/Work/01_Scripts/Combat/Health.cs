@@ -28,7 +28,7 @@ public class Health : MonoBehaviour, IDamageable
         //!
         //var popUp = PoolManager.Instance.Pop(PoolingType.PopUpText) as PopUpText;
 
-        if(_owner.Stat.CanEvasion())
+        if (_owner.Stat.CanEvasion())
         {
             //popUp.StartPopUp("Evasion", textPosition, TextType.Message);
             return;
@@ -53,7 +53,7 @@ public class Health : MonoBehaviour, IDamageable
                 _currentHealth - damage, 0, _owner.Stat.maxHealth.GetValue());
         OnHitEvent?.Invoke();
 
-        if(actionData.isCritical)
+        if (actionData.isCritical)
         {
             //popUp.StartPopUp(damage.ToString(), textPosition, TextType.Critical);
         }
@@ -62,7 +62,7 @@ public class Health : MonoBehaviour, IDamageable
             //popUp.StartPopUp(damage.ToString(), textPosition, TextType.Normal);
         }
 
-        if(_currentHealth <= 0)
+        if (_currentHealth <= 0)
         {
             OnDeadEvent?.Invoke();
         }

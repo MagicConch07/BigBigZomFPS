@@ -28,8 +28,12 @@ public abstract class Enemy : Agent
     protected override void Awake()
     {
         base.Awake();
-        _defaultMoveSpeed = moveSpeed;
         _enemyCheckColliders = new Collider[_maxCheckEnemy];
+    }
+
+    void OnEnable()
+    {
+        _defaultMoveSpeed = Random.Range(7f, 15f);
     }
 
     public virtual Collider IsPlayerDetected()
