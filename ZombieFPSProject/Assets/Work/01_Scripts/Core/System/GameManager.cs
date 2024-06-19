@@ -21,4 +21,9 @@ public class GameManager : MonoSingleton<GameManager>
             _globalDirectionLight.DORotate(new Vector3(_globalDirectionLight.eulerAngles.x + 0.22f, _globalDirectionLight.eulerAngles.y, _globalDirectionLight.eulerAngles.z), 0.3f);
         }
     }
+
+    public void GameOver()
+    {
+        Debug.LogError($"GameOver");
+    }
 }

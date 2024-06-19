@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicZombieStat
   m_EditorClassIdentifier: 
   strength:
-    _baseValue: 30
+    _baseValue: 0
     modifiers: 
     isPercent: 0
   agility:
@@ -21,7 +21,7 @@ MonoBehaviour:
     modifiers: 
     isPercent: 0
   damage:
-    _baseValue: 0
+    _baseValue: 10
     modifiers: 
     isPercent: 0
   maxHealth:

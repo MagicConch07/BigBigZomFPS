@@ -6,14 +6,13 @@ using UnityEngine;
 
 public class HpBar : MonoBehaviour
 {
+    [SerializeField] private Health _playerHealth;
     private const int MAX_HP = 100;
     private MicroBar _microBar;
     private int _currentHp;
-    private int _damagePower = 10;
-    public int DamagePower { get => _damagePower; set => _damagePower = value; }
 
     public int healPower = 25;
-    
+
     private void Awake()
     {
         _currentHp = MAX_HP;
@@ -21,14 +20,25 @@ public class HpBar : MonoBehaviour
         _microBar.Initialize(MAX_HP);
     }
 
+    void OnEnable()
+    {
+        _playerHealth.OnHitActionEvent += HandleHitEvent;
+    }
+
+    void OnDisable()
+    {
+        _playerHealth.OnHitActionEvent -= HandleHitEvent;
+    }
+
     private void Update()
     {
         //! Test Key
         if (Input.GetKeyDown(KeyCode.T))
         {
-            DamageHpBar();
+            print("test");
+            HandleHitEvent(999);
         }
-        
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             HealHpBar();
@@ -42,9 +52,9 @@ public class HpBar : MonoBehaviour
         _microBar.UpdateBar(_currentHp, false, UpdateAnim.Heal);
     }
 
-    public void DamageHpBar()
+    public void HandleHitEvent(int damage)
     {
-        _currentHp -= _damagePower;
+        _currentHp -= damage;
         if (_currentHp <= 0) _currentHp = 0;
         _microBar.UpdateBar(_currentHp, false, UpdateAnim.Damage);
     }

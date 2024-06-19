@@ -25,17 +25,17 @@ public class DamageCaster : MonoBehaviour
     {
         Vector3 startPos = GetStartPos();
         bool isHit = Physics.SphereCast(
-            startPos, 
-            _casterRadius, 
-            transform.forward, 
-            out RaycastHit hit, 
+            startPos,
+            _casterRadius,
+            transform.forward,
+            out RaycastHit hit,
             _castingRange, targetLayer);
 
-        if(isHit)
+        if (isHit)
         {
-            if(hit.collider.TryGetComponent<IDamageable>(out IDamageable health))
+            if (hit.collider.TryGetComponent<IDamageable>(out IDamageable health))
             {
-                int damage = _owner.Stat.GetDamage(); //주인의 데미지
+                int damage = _owner.Stat.GetRandomDamage(); //주인의 데미지
                 float knockbackPower = 3f; //나중에 스탯으로부터 가져와야 해.
 
                 health.ApplyDamage(damage, hit.point, hit.normal, knockbackPower, _owner, DamageType.Melee);

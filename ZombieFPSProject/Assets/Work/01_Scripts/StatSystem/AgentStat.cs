@@ -43,27 +43,39 @@ public class AgentStat : ScriptableObject
 
         Type agentStatType = typeof(AgentStat); //이 클래스의 타입정보를 불러와서
 
-        foreach(StatType typeEnum in Enum.GetValues(typeof(StatType)))
+        foreach (StatType typeEnum in Enum.GetValues(typeof(StatType)))
         {
             try
             {
                 string fieldName = LowerFirstChar(typeEnum.ToString());
                 FieldInfo statField = agentStatType.GetField(fieldName);
                 _statDictionary.Add(typeEnum, statField.GetValue(this) as Stat);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Debug.LogError($"There are no stat - {typeEnum.ToString()} {ex.Message}");
             }
         }
     }
 
-    private string LowerFirstChar(string input) 
+    private string LowerFirstChar(string input)
         => $"{char.ToLower(input[0])}{input.Substring(1)}";
 
-    
+
     public int GetDamage()
     {
         return damage.GetValue() + strength.GetValue() * 2;
+    }
+
+    /// <summary>
+    /// Get Random Damage
+    /// Min : Damage + Strength;
+    /// Max : (Damage + Strength) + 5;
+    /// </summary>
+    /// <returns></returns>
+    public int GetRandomDamage()
+    {
+        return Random.Range(damage.GetValue() + strength.GetValue(), (damage.GetValue() + strength.GetValue() * 2) + 6);
     }
 
     public bool CanEvasion()
@@ -80,9 +92,9 @@ public class AgentStat : ScriptableObject
 
     public bool IsCritical(ref int incomingDamage)
     {
-        if(IsHitPercent(criticalChance.GetValue()) )
+        if (IsHitPercent(criticalChance.GetValue()))
         {
-            incomingDamage =  Mathf.FloorToInt(
+            incomingDamage = Mathf.FloorToInt(
                     incomingDamage * criticalDamage.GetValue() * 0.0001f);
             return true;
         }

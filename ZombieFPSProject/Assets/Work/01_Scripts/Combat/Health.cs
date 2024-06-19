@@ -1,3 +1,4 @@
+using System;
 using ObjectPooling;
 using UnityEngine;
 using UnityEngine.Events;
@@ -5,6 +6,7 @@ using UnityEngine.Events;
 public class Health : MonoBehaviour, IDamageable
 {
     public UnityEvent OnHitEvent;
+    public event Action<int> OnHitActionEvent;
     public UnityEvent OnDeadEvent;
 
     public ActionData actionData;
@@ -52,6 +54,7 @@ public class Health : MonoBehaviour, IDamageable
         _currentHealth = Mathf.Clamp(
                 _currentHealth - damage, 0, _owner.Stat.maxHealth.GetValue());
         OnHitEvent?.Invoke();
+        OnHitActionEvent?.Invoke(damage);
 
         if (actionData.isCritical)
         {
