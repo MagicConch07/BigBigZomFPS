@@ -1,37 +1,54 @@
+using System.Reflection;
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader;
     private FPSInput.PlayerActions _inputAction;
-    
+
     [SerializeField] private Rigidbody _myrigid;
     private Transform _originTrm;
-    
+
     // Cam Setting
     [SerializeField] private Transform _eye;
     [SerializeField] private float _sensitivity = 0.1f;
     [SerializeField] private float cameraRotationLimit;
-    
+
     public float mouseSpeed = 1f;
 
     private bool _isHit = false;
-    
-    
+    private bool _isSetting = false;
+
     void Awake()
     {
         _inputAction = _inputReader.FPSInputInstance.Player;
         _originTrm = _eye;
     }
-    
+
+    void OnEnable()
+    {
+        _inputReader.OnSettingsEvent += HandleSettingEvent;
+    }
+
+    void OnDisable()
+    {
+        _inputReader.OnSettingsEvent -= HandleSettingEvent;
+    }
+
+    private void HandleSettingEvent(bool isSetting)
+    {
+        _isSetting = isSetting;
+    }
+
     void LateUpdate()
     {
-        if (_isHit) return;
-        
+        if (_isHit || _isSetting) return;
+
         CameraRotation();
-        
+
         float mouseY = _inputAction.MouseView.ReadValue<Vector2>().x * Mathf.Pow(_sensitivity, 2) * mouseSpeed;
 
         Quaternion rotationYaw = Quaternion.Euler(0.0f, mouseY, 0.0f);
@@ -44,11 +61,11 @@ public class PlayerCamera : MonoBehaviour
     public int DG_Vibrato = 10;
 
     private Sequence _hitSequence;
-    
+
     public void HitPlayer()
     {
         if (_isHit) return;
-        
+
         _isHit = true;
         _hitSequence = DOTween.Sequence()
             .Append(_eye.DOShakeRotation(DG_Duration, DG_Strength, DG_Vibrato, 1f, false))
@@ -58,7 +75,7 @@ public class PlayerCamera : MonoBehaviour
                 _isHit = false;
             });
     }
-    
+
     private void CameraRotation()
     {
         float _xRotation = _inputAction.MouseView.ReadValue<Vector2>().y * Mathf.Pow(_sensitivity, 2) * mouseSpeed;
@@ -74,7 +91,7 @@ public class PlayerCamera : MonoBehaviour
 
         transform.localRotation = localRotation;
     }
-    
+
     private Quaternion Clamp(Quaternion rotation)
     {
         //TODO : 쿼터니언 이해하기

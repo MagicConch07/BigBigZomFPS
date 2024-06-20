@@ -19,10 +19,19 @@ public class EnemyMovement : MonoBehaviour, IMovement
     private NavMeshAgent _navAgent;
     private Rigidbody _rbCompo;
 
-    private float _knockbackStartTime;   
-    private bool _isKnockback;  
+    private float _knockbackStartTime;
+    private bool _isKnockback;
 
     public void Initialize(Agent agent)
+    {
+        //_enemy = agent as Enemy;
+        /* _commonEnemy = GetComponent<CommonEnemy>();
+        _navAgent = GetComponent<NavMeshAgent>();
+        _navAgent.speed = _enemy.moveSpeed;
+        _rbCompo = GetComponent<Rigidbody>(); */
+    }
+
+    public void Initialize(PoolAgent agent)
     {
         _enemy = agent as Enemy;
         _commonEnemy = GetComponent<CommonEnemy>();
@@ -53,7 +62,7 @@ public class EnemyMovement : MonoBehaviour, IMovement
 
     public void SetMovement(Vector3 movement, bool isRotation = true)
     {
-        //ÀÌ ÇÔ¼ö´Â ¿©±â¼­´Â ¾²Áø ¾ÊÀ»²¨´Ù.
+        //ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
     }
 
     public void GetKnockback(Vector3 force)
@@ -65,12 +74,12 @@ public class EnemyMovement : MonoBehaviour, IMovement
     private IEnumerator ApplyKnockbackCoroutine(Vector3 force)
     {
         StopImmediately();
-        
+
         _rbCompo.isKinematic = false;
         _rbCompo.AddForce(force, ForceMode.Impulse);
         _knockbackStartTime = Time.time;
 
-        //ÀÌ¹Ì ³Ë¹éÀÌ ÁøÇàÁßÀÌ¶ó¸é ±×³É ½Ã°£ÀÌ¶û Èû¸¸ ¸®¼Â ½ÃÅ°°í Á¾·áÇÑ´Ù.
+        //ï¿½Ì¹ï¿½ ï¿½Ë¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½×³ï¿½ ï¿½Ã°ï¿½ï¿½Ì¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
         if (_isKnockback)
             yield break;
 

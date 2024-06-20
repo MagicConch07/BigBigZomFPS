@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Agent : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public abstract class Agent : MonoBehaviour
     [field: SerializeField] public AgentStat Stat { get; protected set; }
 
     public bool CanStateChangeable { get; protected set; } = true;
+
     public bool isDead;
 
     protected virtual void Awake()
@@ -24,9 +26,6 @@ public abstract class Agent : MonoBehaviour
         MovementCompo = GetComponent<IMovement>();
         MovementCompo.Initialize(this);
 
-        //! VFX Compo 해결하시고
-        //VFXCompo = transform.Find("AgentVFX").GetComponent<AgentVFX>();
-
         Transform damageTrm = transform.Find("DamageCaster");
         if (damageTrm != null)
         {
@@ -34,7 +33,7 @@ public abstract class Agent : MonoBehaviour
             DamageCasterCompo.InitCaster(this);
         }
 
-        Stat = Instantiate(Stat); //자기자신 복제본으로 만들고 들어간다.
+        Stat = Instantiate(Stat);
         Stat.SetOwner(this);
 
         HealthCompo = GetComponent<Health>();
@@ -54,7 +53,7 @@ public abstract class Agent : MonoBehaviour
 
     public virtual void Attack()
     {
-        //여기서는 아무것도 안한다.
+
     }
 
     public abstract void SetDead();

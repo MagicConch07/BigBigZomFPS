@@ -1,4 +1,5 @@
 using System;
+using ObjectPooling;
 using UnityEngine;
 
 public class DamageCaster : MonoBehaviour
@@ -15,10 +16,16 @@ public class DamageCaster : MonoBehaviour
 
     public LayerMask targetLayer;
     private Agent _owner;
+    private PoolAgent _poolOwner;
 
     public void InitCaster(Agent agent)
     {
         _owner = agent;
+    }
+
+    public void InitCaster(PoolAgent agent)
+    {
+        _poolOwner = agent;
     }
 
     public bool CastDamage()
@@ -35,10 +42,34 @@ public class DamageCaster : MonoBehaviour
         {
             if (hit.collider.TryGetComponent<IDamageable>(out IDamageable health))
             {
-                int damage = _owner.Stat.GetRandomDamage(); //주인의 데미지
-                float knockbackPower = 3f; //나중에 스탯으로부터 가져와야 해.
+                int damage = _owner.Stat.GetRandomDamage(); //?????? ??????
+                float knockbackPower = 3f; //????? ???????κ??? ??????? ??.
 
                 health.ApplyDamage(damage, hit.point, hit.normal, knockbackPower, _owner, DamageType.Melee);
+            }
+        }
+
+        return isHit;
+    }
+
+    public bool CastDamage(int a)
+    {
+        Vector3 startPos = GetStartPos();
+        bool isHit = Physics.SphereCast(
+            startPos,
+            _casterRadius,
+            transform.forward,
+            out RaycastHit hit,
+            _castingRange, targetLayer);
+
+        if (isHit)
+        {
+            if (hit.collider.TryGetComponent<IDamageable>(out IDamageable health))
+            {
+                int damage = _poolOwner.Stat.GetRandomDamage(); //?????? ??????
+                float knockbackPower = 3f; //????? ???????κ??? ??????? ??.
+
+                health.ApplyDamage(damage, hit.point, hit.normal, knockbackPower, _poolOwner, DamageType.Melee);
             }
         }
 

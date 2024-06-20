@@ -18,6 +18,7 @@ public class AgentStat : ScriptableObject
     public Stat evasion;
 
     protected Agent _owner;
+    protected PoolAgent _poolOwner;
     protected Dictionary<StatType, Stat> _statDictionary;
 
     public virtual void SetOwner(Agent owner)
@@ -25,9 +26,19 @@ public class AgentStat : ScriptableObject
         _owner = owner;
     }
 
+    public virtual void SetOwner(PoolAgent owner)
+    {
+        _poolOwner = owner;
+    }
+
     public virtual void IncreaseStatFor(int value, float duration, Stat targetStat)
     {
         _owner.StartCoroutine(StatModifyCoroutine(value, duration, targetStat));
+    }
+
+    public virtual void IncreaseStatFor(int value, float duration, Stat targetStat, int a)
+    {
+        _poolOwner.StartCoroutine(StatModifyCoroutine(value, duration, targetStat));
     }
 
     protected IEnumerator StatModifyCoroutine(int value, float duration, Stat targetStat)

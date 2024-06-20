@@ -62,7 +62,7 @@ public class CommonEnemy : Enemy
     public override void Attack()
     {
         //여기서 나중에 실제 공격처리를 하겠지.
-        DamageCasterCompo.CastDamage();
+        DamageCasterCompo.CastDamage(777);
     }
 
     public override void AnimationEndTrigger()
@@ -73,7 +73,12 @@ public class CommonEnemy : Enemy
     public override void SetDead()
     {
         StateMachine.ChangeState(CommonStateEnum.Dead, true);
-        isDead = true;
-        CanStateChangeable = false;
+        //isDead = true;
+        //CanStateChangeable = false;
+    }
+
+    public override void ResetItem()
+    {
+        gameObject.SetActive(true);
     }
 }

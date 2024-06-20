@@ -32,16 +32,16 @@ namespace Work._01_Scripts
 
             HealthCompo = GetComponent<Health>();
             HealthCompo.Initialize(this);
-            
+
             _weapon.InitCaster(this);
-            
+
             // Todo : Cursor Lock and Visble 따로 처리
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             //! 이거 진짜 분리 해야 해
         }
 
-        public void TestHit()   
+        public void TestHit()
         {
             //! 나중에 처리
             //print(HealthCompo.CurrentHealth);
@@ -49,8 +49,7 @@ namespace Work._01_Scripts
 
         public override void SetDead()
         {
-            //isDead = true;
-            Debug.LogError("Player Die!!!");
+            isDead = true;
         }
     }
 }

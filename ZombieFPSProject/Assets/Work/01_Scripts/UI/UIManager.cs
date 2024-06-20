@@ -14,6 +14,8 @@ public class UIManager : MonoSingleton<UIManager>
 
     [SerializeField] private GameObject _death;
     [SerializeField] private GameObject _clear;
+    [SerializeField] private GameObject _settings;
+    [SerializeField] private InputReader _inputReader;
 
     //[SerializeField] private Transform _canvasTrm;
 
@@ -26,6 +28,46 @@ public class UIManager : MonoSingleton<UIManager>
                 .GetComponent($"{windowEnum.ToString()}Panel") as IWindowPanel;
             panelDictionary.Add(windowEnum, panel);
         } */
+    }
+
+    void OnEnable()
+    {
+        _inputReader.OnSettingsEvent += HandleSettingsEvent;
+        _death.SetActive(false);
+        _clear.SetActive(false);
+        _settings.SetActive(false);
+    }
+
+    void OnDisable()
+    {
+        _inputReader.OnSettingsEvent -= HandleSettingsEvent;
+    }
+
+    private void HandleSettingsEvent(bool isRun)
+    {
+        if (isRun)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            _settings.SetActive(true);
+        }
+
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            _settings.SetActive(false);
+        }
+    }
+
+    public void DeadUI()
+    {
+        _death.SetActive(true);
+    }
+
+    public void ClaerUI()
+    {
+        _clear.SetActive(true);
     }
 
     public void Open(WindowEnum target)
@@ -54,5 +96,10 @@ public class UIManager : MonoSingleton<UIManager>
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    public void Test()
+    {
+        Debug.Log($"Test");
     }
 }

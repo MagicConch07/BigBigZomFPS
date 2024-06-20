@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Enemy : Agent
+public abstract class Enemy : PoolAgent
 {
     [Header("Common settings")]
     public float moveSpeed;
