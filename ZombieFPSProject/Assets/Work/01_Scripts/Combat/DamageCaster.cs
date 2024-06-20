@@ -45,7 +45,7 @@ public class DamageCaster : MonoBehaviour
                 int damage = _owner.Stat.GetRandomDamage(); //?????? ??????
                 float knockbackPower = 3f; //????? ???????¥ê??? ??????? ??.
 
-                health.ApplyDamage(damage, hit.point, hit.normal, knockbackPower, _owner, DamageType.Melee);
+                health.ApplyDamage(damage, hit.point, hit.normal, knockbackPower, _owner, DamageType.Melee, false);
             }
         }
 

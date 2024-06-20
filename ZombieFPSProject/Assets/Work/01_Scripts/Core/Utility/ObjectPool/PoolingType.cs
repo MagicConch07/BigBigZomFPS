@@ -2,6 +2,6 @@ namespace ObjectPooling
 {
     public enum PoolingType
     {
-        Bullet,ZombieHit,CasingBullet,
+        Bullet,ZombieHit,CasingBullet,Enemy,
     }
 }

@@ -9,7 +9,7 @@ public class CommonDeadState : EnemyState<CommonStateEnum>
 
     private int _deadbodyLayer = LayerMask.NameToLayer("DeadBody");
 
-    
+
     public CommonDeadState(Enemy enemyBase, EnemyStateMachine<CommonStateEnum> stateMachine, string animBoolName) : base(enemyBase, stateMachine, animBoolName)
     {
     }
@@ -19,26 +19,15 @@ public class CommonDeadState : EnemyState<CommonStateEnum>
         base.Enter();
         _enemyBase.gameObject.layer = _deadbodyLayer;
 
-        //int gold = _enemyBase.DropTable.GetDropGold();
-        //int exp = _enemyBase.DropTable.dropExp;
-
-        //PlayerManager.Instance.AddExp( exp  ); //경험치 넣어주고
-
         Vector3 dropDirection = _enemyBase.HealthCompo.actionData.hitNormal * -1;
-        
-        //for(int i = 0; i < gold; i++)
-        {
-            //Item coin = PoolManager.Instance.Pop(PoolingType.Item_Coin) as Item;
-            Vector3 realDir = Quaternion.Euler(0, Random.Range(-30f, 30f), 0) * dropDirection;
-            //coin.SetItemData(_enemyBase.transform.position, realDir);
-        }
+        Vector3 realDir = Quaternion.Euler(0, Random.Range(-30f, 30f), 0) * dropDirection;
     }
 
-    //아직 안한게 넉백중일때는 처리해줘야 해.
+    //???? ????? ?????????? ???????? ??.
     public override void UpdateState()
     {
         base.UpdateState();
-        if(_endTriggerCalled && _isDissolve == false)
+        if (_endTriggerCalled && _isDissolve == false)
         {
             _isDissolve = true;
             _enemyBase.StartCoroutine(StartDissolveCoroutine());
@@ -59,6 +48,7 @@ public class CommonDeadState : EnemyState<CommonStateEnum>
             currentTime += Time.deltaTime;
         }
         yield return new WaitForSeconds(0.2f);
-        GameObject.Destroy(_enemyBase.gameObject);
+        _enemyBase.gameObject.SetActive(false);
+        PoolManager.Instance.Push(_enemyBase);
     }
 }

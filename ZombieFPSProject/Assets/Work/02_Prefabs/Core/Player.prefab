@@ -1052,7 +1052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 618dcc8fe6618e54888d55fb5a6924d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Stat>k__BackingField: {fileID: 11400000, guid: 10f6046371b708d4a8b99a01a7670292, type: 2}
+  <Stat>k__BackingField: {fileID: 11400000, guid: 5bb804e2f2d39ae47954d0a623df0fdf, type: 2}
   isDead: 0
   _inputReader: {fileID: 11400000, guid: 783311ebbca53f14c8b494d0b7de227a, type: 2}
   _weapon: {fileID: 1222758315483945306}
@@ -1170,6 +1170,18 @@ MonoBehaviour:
       - m_Target: {fileID: 2899524820697241577}
         m_TargetAssemblyTypeName: Work._01_Scripts.Player, Assembly-CSharp
         m_MethodName: SetDead
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: GameOver
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

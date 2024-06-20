@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class AgentMovement : MonoBehaviour, IMovement
 {
     [SerializeField] private InputReader _inputReader;
-    
+
     [Header("Ground Layer Settings")]
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _groundRayDistance;
@@ -14,7 +14,7 @@ public class AgentMovement : MonoBehaviour, IMovement
     protected Rigidbody _myRigidbody;
     private Agent _agent;
 
-    #region ¼Óµµ °ü·Ã ·ÎÁ÷
+    #region ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     public float moveSpeed = 10f;
     public float sprintSpeed = 12f;
@@ -30,8 +30,8 @@ public class AgentMovement : MonoBehaviour, IMovement
 
     public void Initialize(Agent agent)
     {
-        // ! ÀÌ°Å inputreader ¹Ù²ã¶ó
-        // TODO : inputreader ¾µµ¥¾ø´Â ÂüÁ¶ ¾ø¾Ö°í ÀÏ°ü¼º ÀÖ°Ô º¯¼ö °ü¸® => ÇÏ³ª¿¡¼­¸¸ ÇÏ¼À ¿©·¯±ºµ¥ ÇÏÁö ¸»°í ¤·¤»?
+        // ! ï¿½Ì°ï¿½ inputreader ï¿½Ù²ï¿½ï¿½
+        // TODO : inputreader ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ => ï¿½Ï³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½?
         //_inputReader = 
         _myRigidbody = GetComponent<Rigidbody>();
         _agent = agent;
@@ -49,10 +49,10 @@ public class AgentMovement : MonoBehaviour, IMovement
         _inputReader.OnJumpEvent -= HandleJump;
         _inputReader.OnSprintEvent -= HandleSprint;
     }
-    
+
     private void HandleSprint(bool isPress)
     {
-        // TODO : ¾Ö´Ï¸ŞÀÌ¼ÇÀÌ³ª Ä«¸Ş¶ó Èçµé¸² Ãß°¡ ÇÏ½Ê¼î
+        // TODO : ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½Ì³ï¿½ Ä«ï¿½Ş¶ï¿½ ï¿½ï¿½é¸² ï¿½ß°ï¿½ ï¿½Ï½Ê¼ï¿½
         if (isPress)
             moveSpeed = sprintSpeed;
         else
@@ -70,7 +70,7 @@ public class AgentMovement : MonoBehaviour, IMovement
 
 
     private void Update()
-    { 
+    {
         IsGround = GroundCheck();
         Gravity();
     }
@@ -90,10 +90,10 @@ public class AgentMovement : MonoBehaviour, IMovement
     private void Move()
     {
         _movementInput = _inputReader.PlayerActionsInstance.Movement.ReadValue<Vector2>();
-        
+
         _velocity = new Vector3(_movementInput.x, 0, _movementInput.y) * moveSpeed;
-        _velocity =  transform.TransformDirection(_velocity);
-        
+        _velocity = transform.TransformDirection(_velocity);
+
         _myRigidbody.velocity = new Vector3(_velocity.x, _myRigidbody.velocity.y, _velocity.z);
     }
 
@@ -101,12 +101,12 @@ public class AgentMovement : MonoBehaviour, IMovement
     {
         return Physics.Raycast(transform.position, Vector3.down * groundRayDistance, _groundRayDistance, _groundLayer);
     }
-    
+
     public void StopImmediately()
     {
         _velocity = Vector3.zero;
     }
-    
+
     public void SetMovement(Vector3 movement, bool isRotation = true)
     {
         // Noting
@@ -114,15 +114,21 @@ public class AgentMovement : MonoBehaviour, IMovement
 
     public void SetDestination(Vector3 destination)
     {
-        //ÇÃ·¹ÀÌ¾î´Â ÀÌ ÇÔ¼ö¸¦ ¾È¾´´Ù. (NavMesh±â¹İ)
+        //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½È¾ï¿½ï¿½ï¿½. (NavMeshï¿½ï¿½ï¿½)
     }
 
     public void GetKnockback(Vector3 force)
     {
-        //ÇöÀç´Â ³Ë¹éÀ» ±¸ÇöÇÏÁö ¾Ê´Â´Ù.
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
     }
-    
-#if UNITY_EDITOR    
+
+    public void Initialize(PoolAgent agent)
+    {
+        //! ì›ë˜ ì´ëŸ¬ë©´ ì•ˆë˜ê¸´ í•˜ëŠ”ë° ì‹œê°„ì´ ì—†ìœ¼ë‹ˆ ì´ê±°ëŠ” ì—ë„ˆë¯¸ ì „ìš©
+        //TODO : ë¯¼êµì•¼ ë¶„ë°œí•˜ì í•  ìˆ˜ ìˆë‹¤. ì§„ì§œ ì´ì œë¶€í„° í•˜ë‚˜ì”© ì°¨ê·¼íˆ í•˜ëŠ”ê±°ì•¼ í•œê°€ì§€ë§Œ ì§‘ì¤‘í•´
+    }
+
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;

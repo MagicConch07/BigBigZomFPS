@@ -7,9 +7,9 @@ public abstract class Enemy : PoolAgent
     public float battleTime;
     public bool isActive;
 
+    protected CapsuleCollider _collider;
+    protected Rigidbody _rigidbody;
     //[field: SerializeField] public DropTableSO DropTable { get; private set; }
-
-    protected float _defaultMoveSpeed;
 
     [SerializeField] protected LayerMask _whatIsPlayer;
     [SerializeField] protected LayerMask _whatIsObstacle;
@@ -29,11 +29,13 @@ public abstract class Enemy : PoolAgent
     {
         base.Awake();
         _enemyCheckColliders = new Collider[_maxCheckEnemy];
+        _collider = GetComponent<CapsuleCollider>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     void OnEnable()
     {
-        _defaultMoveSpeed = Random.Range(7f, 15f);
+        moveSpeed = Random.Range(5.5f, 18f);
     }
 
     public virtual Collider IsPlayerDetected()

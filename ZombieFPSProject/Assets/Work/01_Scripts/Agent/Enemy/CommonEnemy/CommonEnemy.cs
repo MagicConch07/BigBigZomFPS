@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public enum CommonStateEnum
@@ -39,7 +40,7 @@ public class CommonEnemy : Enemy
         }
     }
 
-    private void Start()
+    void OnEnable()
     {
         StateMachine.Initialize(CommonStateEnum.Idle, this);
     }
@@ -47,11 +48,6 @@ public class CommonEnemy : Enemy
     private void Update()
     {
         StateMachine.CurrentState.UpdateState();
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            StateMachine.ChangeState(CommonStateEnum.Idle);
-        }
     }
 
     public void Damage()
@@ -73,6 +69,8 @@ public class CommonEnemy : Enemy
     public override void SetDead()
     {
         StateMachine.ChangeState(CommonStateEnum.Dead, true);
+        _collider.enabled = false;
+        _rigidbody.useGravity = false;
         //isDead = true;
         //CanStateChangeable = false;
     }

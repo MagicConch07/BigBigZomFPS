@@ -8,11 +8,11 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     #region Player Valuse
-    
+
     private Agent _owner;
     [field: SerializeField] public WeaponStat _stat;
     [SerializeField] private InputReader _inputReader;
-    
+
     #endregion
 
     #region Gun Values
@@ -23,17 +23,17 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform _muzzle;
     [SerializeField] private Transform _casingTrm;
     [SerializeField] private MuzzleFlame _muzzleFlame;
-    
-    [Header("Gun Tween")] 
+
+    [Header("Gun Tween")]
     public float gunRotationDuration = 0.12f;
     public float endDuration = 0.3f;
     public float gunTweenBackDuration = 0.1f;
     public float gun_power = -5;
     public float recoilPosPower = -0.07f;
-    
+
     private Sequence _gunSequence;
     private bool isRecoilTween = false;
-    
+
     [Header("Muzzle Tween")]
     public Vector3 muzzle_Str;
     public int muzzle_Vibrato;
@@ -48,33 +48,33 @@ public class Weapon : MonoBehaviour
     private bool _isFire = false;
     private bool _isReload = false;
     private Ray _gunRay;
-    
+
     #endregion
-    
+
     #region Camera Valuse
-    
+
     [Header("Cam Settings")]
     [SerializeField] private CinemachineVirtualCamera _virCam;
     private CinemachineBasicMultiChannelPerlin _perlin;
 
-    [Header("Cam Tween Settings")] 
+    [Header("Cam Tween Settings")]
     //public float camTweenDuration = 0.05f;
     public float DG_ShakePositionDuration = 0.5f;
     //public float power = -3;
     public int DG_Vibrato = 10;
     public Vector3 Cam_Strength = Vector3.one;
     private Sequence _CamSequence;
-    
+
     #endregion
 
     #region  Event
-    
+
     public event Action OnFireFlame;
     public event Action OnFireEvent;
     public event Action OnReloadingEvent;
-    
+
     #endregion
-    
+
     public void InitCaster(Agent agent)
     {
         _owner = agent;
@@ -143,7 +143,7 @@ public class Weapon : MonoBehaviour
         OnFireEvent?.Invoke();
         _muzzleFlame.gameObject.SetActive(true);
         _muzzleFlame.PlayParticle();
-        
+
         RaycastHit[] hitInfo = new RaycastHit[3];
         int hit = Physics.RaycastNonAlloc(_gunRay, hitInfo, _stat.range.GetValue(), _enemyLayer);
         if (hit >= 1)
@@ -151,13 +151,13 @@ public class Weapon : MonoBehaviour
             ZombieHit zombieHit = PoolManager.Instance.Pop(PoolingType.ZombieHit) as ZombieHit;
             if (zombieHit != null) zombieHit.transform.position = hitInfo[0].point;
 
-            if(hitInfo[0].collider.TryGetComponent<IDamageable>(out IDamageable health))
+            if (hitInfo[0].collider.TryGetComponent<IDamageable>(out IDamageable health))
             {
                 int damage = _owner.Stat.GetDamage(); // Onwer Damage
-                health.ApplyDamage(damage, hitInfo[0].point, hitInfo[0].normal, _cashKonckPower / 10, _owner, DamageType.Range);
+                health.ApplyDamage(damage, hitInfo[0].point, hitInfo[0].normal, _cashKonckPower / 10, _owner, DamageType.Range, true);
             }
         }
-        
+
         Recoil();
         MuzzleTween();
         CamTween();
@@ -167,13 +167,13 @@ public class Weapon : MonoBehaviour
         _muzzleFlame.gameObject.SetActive(false);
         _isFire = false;
     }
-    
+
     private void MuzzleTween()
     {
         _muzzleSequence = DOTween.Sequence()
             .Append(_muzzle.DOShakeRotation(muzzle_duration, muzzle_Str, muzzle_Vibrato, 1, false));
     }
-    
+
     private void CamTween()
     {
         _CamSequence = DOTween.Sequence()
@@ -186,14 +186,14 @@ public class Weapon : MonoBehaviour
             });
         _virCam.transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
-    
+
     private void Recoil()
     {
         //! 일단 버리고 나중에 하자 지금 시간도 없고 이런 것에 집중하지마 할 수 있다.
         // 아 이거 뭔가 이상해
         if (isRecoilTween) return;
         isRecoilTween = true;
-        
+
         _gunSequence = DOTween.Sequence()
             .Append(_gun.DOLocalRotate(new Vector3(gun_power, 0, 0), gunRotationDuration).SetEase(Ease.Linear))
             .Join(_gun.DOLocalMoveZ(recoilPosPower, gunTweenBackDuration).SetEase(Ease.InOutQuad))
@@ -218,8 +218,8 @@ public class Weapon : MonoBehaviour
         PoolObjTargetToPos(PoolingType.CasingBullet, _casingTrm);
         OnFireFlame?.Invoke();
     }
-    
-    private void PoolObjTargetToPos (PoolingType poolType, Transform target)
+
+    private void PoolObjTargetToPos(PoolingType poolType, Transform target)
     {
         PoolableMono obj = PoolManager.Instance.Pop(poolType);
         if (obj != null) TargetToPos(obj.transform, target);
@@ -231,12 +231,12 @@ public class Weapon : MonoBehaviour
         pos.rotation = target.rotation;
     }
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawRay(_gunRay.origin, _gunRay.direction * _stat.range.GetValue());
     }
-    #endif
+#endif
 }
 

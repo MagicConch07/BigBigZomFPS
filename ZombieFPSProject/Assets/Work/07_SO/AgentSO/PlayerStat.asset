@@ -21,7 +21,7 @@ MonoBehaviour:
     modifiers: 
     isPercent: 0
   damage:
-    _baseValue: 13
+    _baseValue: 34
     modifiers: 
     isPercent: 0
   maxHealth:
