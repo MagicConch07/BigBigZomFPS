@@ -21,7 +21,7 @@ public class EnemySpawn : MonoBehaviour
 
     private IEnumerator ZombieSpawn()
     {
-        yield return new WaitForSeconds(12f);
+        yield return new WaitForSeconds(8f);
         for (int i = 0; i < 5; ++i)
         {
             Transform zomPos = _pos[Random.Range(0, _pos.Length)].transform;

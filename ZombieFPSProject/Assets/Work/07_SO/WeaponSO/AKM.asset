@@ -33,6 +33,6 @@ MonoBehaviour:
     modifiers: 
     isPercent: 0
   reloading:
-    _baseValue: 50
+    _baseValue: 33
     modifiers: 
     isPercent: 0

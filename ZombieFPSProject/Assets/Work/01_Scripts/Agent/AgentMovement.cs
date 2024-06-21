@@ -14,7 +14,7 @@ public class AgentMovement : MonoBehaviour, IMovement
     protected Rigidbody _myRigidbody;
     private Agent _agent;
 
-    #region ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    #region ??? ???? ????
 
     public float moveSpeed = 10f;
     public float sprintSpeed = 12f;
@@ -30,8 +30,8 @@ public class AgentMovement : MonoBehaviour, IMovement
 
     public void Initialize(Agent agent)
     {
-        // ! ï¿½Ì°ï¿½ inputreader ï¿½Ù²ï¿½ï¿½
-        // TODO : inputreader ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ => ï¿½Ï³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½?
+        // ! ??? inputreader ????
+        // TODO : inputreader ???????? ???? ????? ????? ??? ???? ???? => ????????? ??? ???????? ???? ???? ?????
         //_inputReader = 
         _myRigidbody = GetComponent<Rigidbody>();
         _agent = agent;
@@ -52,7 +52,7 @@ public class AgentMovement : MonoBehaviour, IMovement
 
     private void HandleSprint(bool isPress)
     {
-        // TODO : ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½Ì³ï¿½ Ä«ï¿½Ş¶ï¿½ ï¿½ï¿½é¸² ï¿½ß°ï¿½ ï¿½Ï½Ê¼ï¿½
+        // TODO : ?????????? ???? ??? ??? ????
         if (isPress)
             moveSpeed = sprintSpeed;
         else
@@ -63,7 +63,7 @@ public class AgentMovement : MonoBehaviour, IMovement
     {
         if (IsGround)
         {
-            _myRigidbody.velocity = new Vector3(_myRigidbody.velocity.x, jumpPower, _myRigidbody.velocity.z);
+            //_myRigidbody.velocity = new Vector3(_myRigidbody.velocity.x, jumpPower, _myRigidbody.velocity.z);
             //_myRigidbody.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
         }
     }
@@ -114,18 +114,18 @@ public class AgentMovement : MonoBehaviour, IMovement
 
     public void SetDestination(Vector3 destination)
     {
-        //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½È¾ï¿½ï¿½ï¿½. (NavMeshï¿½ï¿½ï¿½)
+        //?¡À????? ?? ????? ?????. (NavMesh???)
     }
 
     public void GetKnockback(Vector3 force)
     {
-        //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
+        //????? ????? ???????? ??¢¥?.
     }
 
     public void Initialize(PoolAgent agent)
     {
-        //! ì›ë˜ ì´ëŸ¬ë©´ ì•ˆë˜ê¸´ í•˜ëŠ”ë° ì‹œê°„ì´ ì—†ìœ¼ë‹ˆ ì´ê±°ëŠ” ì—ë„ˆë¯¸ ì „ìš©
-        //TODO : ë¯¼êµì•¼ ë¶„ë°œí•˜ì í•  ìˆ˜ ìˆë‹¤. ì§„ì§œ ì´ì œë¶€í„° í•˜ë‚˜ì”© ì°¨ê·¼íˆ í•˜ëŠ”ê±°ì•¼ í•œê°€ì§€ë§Œ ì§‘ì¤‘í•´
+        //! ¿ø·¡ ÀÌ·¯¸é ¾ÈµÇ±ä ÇÏ´Âµ¥ ½Ã°£ÀÌ ¾øÀ¸´Ï ÀÌ°Å´Â ¿¡³Ê¹Ì Àü¿ë
+        //TODO : ¹Î±³¾ß ºĞ¹ßÇÏÀÚ ÇÒ ¼ö ÀÖ´Ù. ÁøÂ¥ ÀÌÁ¦ºÎÅÍ ÇÏ³ª¾¿ Â÷±ÙÈ÷ ÇÏ´Â°Å¾ß ÇÑ°¡Áö¸¸ ÁıÁßÇØ
     }
 
 #if UNITY_EDITOR
